@@ -5,6 +5,7 @@ class Plante :
 
 		# We declare all variables we need for printing
 		self.Name = name
+		self.state = 1
 		self.Pot = None
 		self.T = None 
 		self.Lampe = None
@@ -16,8 +17,20 @@ class Plante :
 		self.Taille = None
 		self.Floraison = None
 
-	def getName():
+	def getName(self):
 		return self.Name
+
+	def q(self, state):
+
+		self.state = state
+
+		print("Voulez-vous quitter ? o/n")
+		q = input()
+		while q != 'o' and q != 'n':
+			q = input("Nous n'avons pas compris.")
+
+		return (q == 'o')
+
 
 	def A1(self):
 		print("Bonjour, vous avez decidez de planter une plante avec notre logiciel, bravo ! \
@@ -32,6 +45,11 @@ class Plante :
 
 		self.Pot = (rep == 'p')
 
+
+		if self.q(1):
+			return(self)
+		self.A2()
+
 	def A2(self):
 
 		if self.Pot:
@@ -43,9 +61,24 @@ class Plante :
 				nous vous conseillons de mettre vos graines directe dans la terre. Revenez nous voir \
 				une fois une pousse sortie de la terre.")
 
-	def launch(self):
-		self.A1()
-		self.A2()
+		if self.q(2):
+			return(self)
 
+	def A3(self):
+		print("A3")
+
+
+	def launch(self):
+
+		switcher = {
+			1: self.A1,
+			2: self.A2,
+			3: self.A3
+		}
+
+
+		switcher[self.state]()
+
+		return (self)
 
 
