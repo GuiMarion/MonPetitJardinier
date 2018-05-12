@@ -1,5 +1,9 @@
 
+import datetime
+
 class Plante :
+
+	# TODO afficher arrosage et ajustement taille lampe
 
 	def __init__(self, name):
 
@@ -16,6 +20,8 @@ class Plante :
 		self.Engrais_quantite = None
 		self.Taille = None
 		self.Floraison = None
+		self.Floraison_début = None
+		self.rempoter = 0
 
 	def getName(self):
 		return self.Name
@@ -157,14 +163,107 @@ class Plante :
 
 
 
-		if self.q(4):
+		if self.q(5):
 			return(self)
 		self.A6()
 
 
 	def A6(self):
-		print("prout")
-		return(self)
+		# Affichage croissance
+
+		if self.Lampe:
+			print("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
+				construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
+				de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
+				La photopériode doit être reglée entre à 18h de lumière par jour, utiliser une minuteur que vous pourrez\
+				vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
+				de lumière possible est une bonne pratique.\n\
+				Une fois fait, bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
+				l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
+				la taille de vos plantes afin de vous indiquer les prochaines démarches.")
+
+		else :
+			print("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
+				l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
+				la taille de vos plantes afin de vous indiquer les autres démarches à suivre.")
+
+		if self.q(6):
+			return(self)
+		self.A7()
+
+	def A7(self):
+
+		# Acquisition taille
+		print("Quelle est la taille de votre plante ? (en cm)")
+		rep = input()
+		self.Taille = int(rep)
+
+		if self.q(7):
+			return(self)
+		self.A8()
+
+	def A8(self):
+
+		#Affichage rempotage/ taille/ floraison
+
+		if self.Taille >15 and self.Pot and self.rempoter == 0:
+			print("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
+				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
+				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
+				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
+				de terreau, tassez, puis arrosez.")
+			self.rempoter +=1
+
+		if self.Taille > 25 and self.Pot and self.rempoter == 1:
+			print("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
+				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
+				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
+				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
+				de terreau, tassez, puis arrosez.")
+			self.rempoter +=1
+
+		if self.Taille > 30 and self.Lampe:
+			print("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour\
+				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la\
+				photopériode à 12h de lumière par jour. ")
+
+		if self.Taille > 35:
+			print("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer\
+			la taille de votre plante. Il vous faut couper les petits débuts de fleurs qui sont trop bas pour prendre\
+			la lumière (les gourmandes) et les parties qui ne prendrons pas la lumière. Ne coupez pas les grosses feuilles,\
+			elles contiennent beaucoup d'energie que la plante peut quand même utiliser, s'il elle n'en a plue besoin\
+			elle s'en débarassera d'elle même.")
+
+			if self.q(8):
+				return(self)
+			self.A9()
+
+		else :	
+			self.A7()
+
+	def A9(self):
+		# Acquisition floraison
+		print("Vous devriez être passé en floraison et avoir effectué les premières tailles. Est-ce bien le cas ? (o/n")
+
+		rep = input()
+		while rep != 'o' and rep != 'n':
+			rep = input("Nous n'avons pas compris\n")
+
+		if rep == 'o':
+			self.Floraison = True
+			self.Floraison_début = datetime.date.today()
+			print("Très bien vous pouvons continuer")
+		else :
+			print("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures.")
+
+		if self.q(9):
+			return(self)
+		self.A10()
+
+	def A10(self):
+
+		print("C'est fini")
+		return self
 
 	def launch(self):
 
@@ -174,7 +273,11 @@ class Plante :
 			3: self.A3,
 			4: self.A4,
 			5: self.A5,
-			6: self.A6
+			6: self.A6,
+			7: self.A7,
+			8: self.A8,
+			9: self.A9,
+			10: self.A10
 		}
 
 
