@@ -21,7 +21,8 @@ class Plante :
 		self.Taille = None
 		self.Floraison = None
 		self.Floraison_début = None
-		self.rempoter = 0
+		self.Rempoter = 0
+		self.Arrosage_last = None
 
 	def getName(self):
 		return self.Name
@@ -36,6 +37,15 @@ class Plante :
 			q = input("Nous n'avons pas compris.")
 
 		return (q == 'o')
+
+	def arrosage(self):
+
+		if (self.Arrosage_last - datetime.datetime.now()).days > 3:
+			print("Il est temps d'arroser, pour cela remplissez lentement le pot d'eau. Il faut qu'après\
+			l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent.")
+
+		if self.Engrais:
+			print("Vous devraient aussi mettre de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
 
 
 	def A1(self):
@@ -153,7 +163,7 @@ class Plante :
 
 			rep = input()
 
-			self.Lampe_puissance = rep
+			self.Lampe_puissance = int(rep)
 
 		else:
 			print("C'est un très bon choix. Nous attirons votre attention sur le fait qu'il vous faut\
@@ -167,8 +177,30 @@ class Plante :
 			return(self)
 		self.A6()
 
-
 	def A6(self):
+		# Acquisitino engrais
+
+		print("Voulez-vous utiliser des engrais ? (o/n)")
+		rep = input()
+		while rep != 'o' and rep != 'n':
+			rep = input()
+
+		self.Engrais = (rep == 'o')
+
+		if self.Engrais:
+			print("Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
+				la bouteille.")
+
+			rep = input()
+
+			self.Engrais_quantite = int(rep)
+
+		if self.q(6):
+			return(self)
+		self.A7()
+
+
+	def A7(self):
 		# Affichage croissance
 
 		if self.Lampe:
@@ -187,40 +219,40 @@ class Plante :
 				l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
 				la taille de vos plantes afin de vous indiquer les autres démarches à suivre.")
 
-		if self.q(6):
-			return(self)
-		self.A7()
-
-	def A7(self):
-
-		# Acquisition taille
-		print("Quelle est la taille de votre plante ? (en cm)")
-		rep = input()
-		self.Taille = int(rep)
-
 		if self.q(7):
 			return(self)
 		self.A8()
 
 	def A8(self):
 
+		# Acquisition taille
+		print("Quelle est la taille de votre plante ? (en cm)")
+		rep = input()
+		self.Taille = int(rep)
+
+		if self.q(8):
+			return(self)
+		self.A9()
+
+	def A9(self):
+
 		#Affichage rempotage/ taille/ floraison
 
-		if self.Taille >15 and self.Pot and self.rempoter == 0:
+		if self.Taille >15 and self.Pot and self.Rempoter == 0:
 			print("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
 				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
 				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
 				de terreau, tassez, puis arrosez.")
-			self.rempoter +=1
+			self.Rempoter +=1
 
-		if self.Taille > 25 and self.Pot and self.rempoter == 1:
+		if self.Taille > 25 and self.Pot and self.Rempoter == 1:
 			print("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
 				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
 				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
 				de terreau, tassez, puis arrosez.")
-			self.rempoter +=1
+			self.Rempoter +=1
 
 		if self.Taille > 30 and self.Lampe:
 			print("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour\
@@ -234,14 +266,14 @@ class Plante :
 			elles contiennent beaucoup d'energie que la plante peut quand même utiliser, s'il elle n'en a plue besoin\
 			elle s'en débarassera d'elle même.")
 
-			if self.q(8):
+			if self.q(9):
 				return(self)
-			self.A9()
+			self.A10()
 
 		else :	
-			self.A7()
+			self.A8()
 
-	def A9(self):
+	def A10(self):
 		# Acquisition floraison
 		print("Vous devriez être passé en floraison et avoir effectué les premières tailles. Est-ce bien le cas ? (o/n")
 
@@ -256,11 +288,11 @@ class Plante :
 		else :
 			print("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures.")
 
-		if self.q(9):
+		if self.q(10):
 			return(self)
-		self.A10()
+		self.A11()
 
-	def A10(self):
+	def A11(self):
 
 		print("C'est fini")
 		return self
@@ -277,7 +309,8 @@ class Plante :
 			7: self.A7,
 			8: self.A8,
 			9: self.A9,
-			10: self.A10
+			10: self.A10,
+			11: self.A11
 		}
 
 
