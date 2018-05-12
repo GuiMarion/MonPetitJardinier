@@ -38,7 +38,16 @@ class Plante :
 
 		return (q == 'o')
 
-	def arrosage(self):
+	def Recolte(self):
+
+		if (self.Floraison_début - datetime.datetime.now()) > 25:
+			print("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent\
+				murs. Bravo, notre travail est terminé !")
+
+			return(self)
+
+
+	def Arrosage(self):
 
 		if (self.Arrosage_last - datetime.datetime.now()).days > 3:
 			print("Il est temps d'arroser, pour cela remplissez lentement le pot d'eau. Il faut qu'après\
@@ -47,6 +56,7 @@ class Plante :
 		if self.Engrais:
 			print("Vous devraient aussi mettre de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
 
+		self.Arrosage_last = datetime.datetime.now()
 
 	def A1(self):
 		# Acquisition pot/terre
