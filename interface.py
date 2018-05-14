@@ -61,6 +61,7 @@ class Gui() :
     #fenetre d'ajout de plante.
     def nouvelle_plante(self) :
         self.clean()
+        SDL_SetRenderDrawColor(self.renderer, 150, 150, 150, 255)
 
         couleurNoire = SDL_Color(0, 0, 0)
         texte = sdlttf.TTF_RenderText_Solid(self.police, b"Mon petit jardinier", couleurNoire)
@@ -70,7 +71,12 @@ class Gui() :
         for i in range(len(self.type_plante)) :
             SDL_SetRenderDrawColor(self.renderer, 10, 10, 10, 255)
             SDL_RenderFillRect(self.renderer, SDL_Rect((i+1)*75, 150, 50, 50))
-            self.boutons.append([(i+1)*75, 200, (i+1)*75+50, 400, "pprint", " il faut lier ce bouton à fonction_pour_creer_une_plante(type_de_plante)"])
+
+            texte = sdlttf.TTF_RenderText_Solid(self.police, str.encode(str(self.type_plante[i])), SDL_Color(120, 120, 120))
+            texture = SDL_CreateTextureFromSurface(self.renderer, texte)
+            SDL_RenderCopy(self.renderer, texture, None, SDL_Rect((i+1)*75, 150, 50, 50))
+
+            self.boutons.append([(i+1)*75, 150, (i+1)*75+50, 200, "pprint", " il faut lier ce bouton à fonction_pour_creer_une_plante(type_de_plante)"])
 
         SDL_RenderPresent(self.renderer)
 
@@ -167,7 +173,7 @@ class Gui() :
         SDL_RenderPresent(self.renderer)
 
 
-"""
+
 #exemple d'utilisation :
 plante_existante = ["ma tomate 1", "ma tomate 2"]
 a = Gui(plante_existante)
@@ -180,4 +186,3 @@ a.diagnostique("ta plante a un probleme")
 #boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le affichage())
 while a.run :
     a.affichage()
-"""
