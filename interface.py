@@ -15,6 +15,10 @@ class Gui() :
     type_plante = ["tomate", "basilic"]
     plantes = []
 
+    #fonction temporaire :
+    def pprint(self,a) :
+        print(a)
+
     def __init__(self, plantes):
         SDL_Init(SDL_INIT_VIDEO)
         self.window = SDL_CreateWindow(b"mon petit jardinier",
@@ -66,7 +70,7 @@ class Gui() :
         for i in range(len(self.type_plante)) :
             SDL_SetRenderDrawColor(self.renderer, 10, 10, 10, 255)
             SDL_RenderFillRect(self.renderer, SDL_Rect((i+1)*75, 150, 50, 50))
-            self.boutons.append([(i+1)*75, 200, (i+1)*75+50, 400, "fonction_pour_creer_une_plante", "type_de_plante"])
+            self.boutons.append([(i+1)*75, 200, (i+1)*75+50, 400, "pprint", " il faut lier ce bouton à fonction_pour_creer_une_plante(type_de_plante)"])
 
         SDL_RenderPresent(self.renderer)
 
@@ -118,7 +122,7 @@ class Gui() :
         for i in range(len(self.plantes)) :
             SDL_SetRenderDrawColor(self.renderer, 10, 10, 10, 255)
             SDL_RenderFillRect(self.renderer, SDL_Rect((i+1)*75, 350, 50, 50))
-            self.boutons.append([(i+1)*75, 350, (i+1)*75+50, 400, "ma_plante", str(self.plantes[i])])
+            self.boutons.append([(i+1)*75, 350, (i+1)*75+50, 400, "pprint", str("appel a la fonction qui appele la fonction ma_plante pour la plante " + self.plantes[i])] )
 
         SDL_SetRenderDrawColor(self.renderer, 200, 200, 200, 255)
         SDL_RenderFillRect(self.renderer, SDL_Rect(400, 350, 50, 50))
@@ -163,17 +167,16 @@ class Gui() :
         SDL_RenderPresent(self.renderer)
 
 
-"""
-exemple d'utilisation :
+
+#exemple d'utilisation :
 plante_existante = ["ma tomate 1", "ma tomate 2"]
 a = Gui(plante_existante)
 
 a.nouvelle_plante()
 a.accueil()
 a.diagnostique("ta plante a un probleme")
-a.ma_plante("toto", [1,2,5], [["a temps","arrosage"],["trop tard","rempotage"],["trop tôt","mettre de l'engrais"]], [4,8,3])
+#a.ma_plante("toto", [1,2,5], [["a temps","arrosage"],["trop tard","rempotage"],["trop tôt","mettre de l'engrais"]], [4,8,3])
 
 #boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le affichage())
 while a.run :
     a.affichage()
-"""
