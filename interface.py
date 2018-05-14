@@ -173,7 +173,7 @@ class Gui() :
         SDL_RenderPresent(self.renderer)
 
 
-
+"""
 #exemple d'utilisation :
 plante_existante = ["ma tomate 1", "ma tomate 2"]
 a = Gui(plante_existante)
@@ -186,3 +186,4 @@ a.diagnostique("ta plante a un probleme")
 #boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le affichage())
 while a.run :
     a.affichage()
+"""
