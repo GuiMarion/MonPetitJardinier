@@ -12,6 +12,7 @@ class Gui() :
     window = None
     run = True
     windowSurface = None
+    renderer = None
     police = None
     type_plante = ["tomate", "basilic"]
     plantes = []
@@ -22,16 +23,24 @@ class Gui() :
 
     def __init__(self, plantes):
         #initialisation de la sdl
-        SDL_Init(SDL_INIT_VIDEO)
+        if SDL_Init(SDL_INIT_VIDEO) < 0  :
+            print("probléme d'initialisation : " + str(SDL_GetError()))
+
         #creation de la fenetre
         self.window = SDL_CreateWindow(b"mon petit jardinier",
                                   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                   592, 460, SDL_WINDOW_SHOWN)
+        if self.window == None :
+            print("erreur lors de la creation de la fenetre.")
+
         self.windowSurface = SDL_GetWindowSurface(self.window)
         #initialisation de sdl_ttf
         sdlttf.TTF_Init()
         #creation d'un renderer
         self.renderer = SDL_CreateRenderer(self.window, -1, 0)
+        if self.renderer == None :
+            print("erreur lors de la creation du renderer.")
+            
         self.police =  sdlttf.TTF_OpenFont(b"Roboto.ttf", 65)
         self.plantes = plantes
 
@@ -199,7 +208,7 @@ class Gui() :
 plante_existante = ["tomate", "basilic"]
 a = Gui(plante_existante)
 
-a.nouvelle_plante()
+#a.nouvelle_plante()
 a.accueil()
 #a.acquisition(["ma question blablabla","oui","non","je ne sais pas","pprint"])
 #a.diagnostique("ta plante a un probleme")
