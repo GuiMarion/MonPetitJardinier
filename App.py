@@ -74,12 +74,12 @@ if __name__ == "__main__":
 	A = App()
 
 	if len(sys.argv) == 2:
-		if sys.argv[1] == "reset":
+		if sys.argv[1] == "Reset":
 			A.reset()
 		elif sys.argv[1] == "Start":
 			A.Start()
 		else :
-			print("Usage: Python3 RSA2.py <Message to encrypt>")
+			print("Usage: Python3 App.py <Start or reset>")
 
 
 	else:
