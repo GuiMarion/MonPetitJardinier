@@ -2,13 +2,13 @@
 import datetime
 import Plante
 
-class Basilic(Plante.Plante):
+class Tomate(Plante.Plante):
 
 	# TODO afficher arrosage et ajustement taille lampe
 
 	def __init__(self, name):
+		self.type = "tomate"
 		Plante.__init__(self, name)
-		print("j'ai fais caca")
 
 	def q(self, state):
 

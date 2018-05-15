@@ -8,7 +8,7 @@ class Basilic(Plante.Plante):
 
 	def __init__(self, name):
 		Plante.__init__(self, name)
-		print("j'ai fais caca")
+		self.type = "basilic"
 
 	def q(self, state):
 
