@@ -1,19 +1,24 @@
 import pickle
 from Plante import *
 import sys
+from Interface import *
 
 class App:
 	def __init__(self):
 		self.Plantes = pickle.load(open(".state", 'rb'))
+		names = []
+		for elem  in self.Plantes:
+			names.append(elem.getName())
+		self.gui = Gui(names)
 
 	def quit(self):
 
-		print("Merci d'avoir utilisé l'application, à bientôt.")
+		self.gui.pop_up("au revoir", "Merci d'avoir utilisé l'application, à bientôt.")
 		pickle.dump(self.Plantes, open(".state", 'wb'), pickle.HIGHEST_PROTOCOL)
 
 	def reset(self):
 
-		print("Vos plantes sont effacées.")
+		self.gui.pop_up("", "Vos plantes sont effacées.")
 		pickle.dump([], open(".state", 'wb'), pickle.HIGHEST_PROTOCOL)
 
 	def Start(self):
@@ -55,7 +60,7 @@ class App:
 			elif len(self.Plantes) == 1:
 
 				print("Vous n'avez qu'une plante en cours, nous la lançons.")
-				
+
 				self.Plantes[0] = self.Plantes[0].launch()
 
 			else:
@@ -72,13 +77,10 @@ if __name__ == "__main__":
 		if sys.argv[1] == "reset":
 			A.reset()
 		elif sys.argv[1] == "Start":
-			A.Start()	
+			A.Start()
 		else :
 			print("Usage: Python3 RSA2.py <Message to encrypt>")
 
 
 	else:
 		print("Usage: Python3 App.py <Start or reset>")
-
-
-
