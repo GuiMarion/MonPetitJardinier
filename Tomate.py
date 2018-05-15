@@ -7,8 +7,8 @@ class Tomate(Plante.Plante):
 	# TODO afficher arrosage et ajustement taille lampe
 
 	def __init__(self, name):
-		self.type = "tomate"
 		Plante.__init__(self, name)
+		self.type = "tomate"
 
 	def q(self, state):
 
@@ -100,7 +100,7 @@ class Tomate(Plante.Plante):
 					return(self)
 				self.A4()
 
-		else: 
+		else:
 			print("Avez-vous apperçu un germe sortir ?")
 			# Intégrer photos
 			rep = input()
@@ -114,7 +114,7 @@ class Tomate(Plante.Plante):
 
 				if self.q(3):
 					return(self)
-				self.A5()		
+				self.A5()
 
 
 	def A4(self):
@@ -123,10 +123,10 @@ class Tomate(Plante.Plante):
 		print("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
 			préalablement désinfectée et la déposer dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
 			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser.")
-		
+
 		if self.q(4):
 			return(self)
-		self.A5()	
+		self.A5()
 
 	def A5(self):
 		# Acquisition lumière
@@ -136,7 +136,7 @@ class Tomate(Plante.Plante):
 			il vous faudra beaucoup de lumière, la lumière naturelle sera donc appropriée dans une région\
 			ensoleillée et qui n'est pas à l'ombre. Une lampe agricole peut être utilisée seule ou en\
 			complément et devra être d'au moins 125-250 watts (ce qui a un coût en élécricité.)\n\
-			Que voulez-vous faire ? (lampe/exte)  ")	
+			Que voulez-vous faire ? (lampe/exte)  ")
 
 
 		rep = input()
@@ -272,7 +272,7 @@ class Tomate(Plante.Plante):
 				return(self)
 			self.A10()
 
-		else :	
+		else :
 			self.A8()
 
 	def A10(self):
@@ -319,5 +319,3 @@ class Tomate(Plante.Plante):
 		switcher[self.state]()
 
 		return (self)
-
-
