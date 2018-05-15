@@ -108,6 +108,8 @@ class Plante :
 
 			if rep == 'n':
 				print("Revenez vers nous une fois qu'elle aura germée.")
+				if self.q(3):
+					return(self)
 				self.A3()
 			else :
 
@@ -204,6 +206,13 @@ class Plante :
 			rep = input()
 
 			self.Engrais_quantite = int(rep)
+
+			print("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
+				un arrosage pour deux.)")
+
+			rep = input()
+
+			self.Engrais_freq = int(rep)
 
 		if self.q(6):
 			return(self)

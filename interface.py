@@ -75,6 +75,7 @@ class Gui() :
         SDL_Delay(15)
 
 
+
     #fenetre d'ajout de plante.
     def nouvelle_plante(self) :
         self.clean()
@@ -202,13 +203,21 @@ class Gui() :
 
         SDL_RenderPresent(self.renderer)     #mis a jour de l'affichage de la fenetre (rien n'est afficher avant)
 
+    def test(self):
 
+        couleurNoire = SDL_Color(0, 0, 0)#couleur du texte
+        texte = sdlttf.TTF_RenderText_Solid(self.police, b"Mon petit jardinier", couleurNoire)  #creation du texte
+        texture = SDL_CreateTextureFromSurface(self.renderer, texte)    #creation d'une texture depuis le texte
+        SDL_RenderCopy(self.renderer, texture, None, SDL_Rect(100, 20, 250, 150))   #applique la texture sur la fenetre dans un rectangle
+        SDL_RenderPresent(self.renderer)     #mis a jour de l'affichage de la fenetre (rien n'est afficher avant)
+
+        SDL_Delay(10)
 
 #exemple d'utilisation :
 plante_existante = ["tomate", "basilic"]
 a = Gui(plante_existante)
 
-#a.nouvelle_plante()
+a.nouvelle_plante()
 a.accueil()
 #a.acquisition(["ma question blablabla","oui","non","je ne sais pas","pprint"])
 #a.diagnostique("ta plante a un probleme")
@@ -216,4 +225,5 @@ a.accueil()
 
 #boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le event())
 while a.run :
+    a.test()
     a.event()
