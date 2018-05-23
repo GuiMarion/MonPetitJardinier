@@ -7,7 +7,7 @@ class Basilic(Plante.Plante):
 	# TODO afficher arrosage et ajustement taille lampe
 
 	def __init__(self, name):
-		Plante.__init__(name)
+		Plante.Plante.__init__(self,name)
 		self.type = "basilic"
 
 	def q(self, state):
