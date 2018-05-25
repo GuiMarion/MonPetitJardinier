@@ -3,7 +3,8 @@ from sdl2 import *
 import sdl2.sdlttf as sdlttf
 from sdl2.sdlimage import *
 import ctypes
-
+from Tomate import *
+from Basilic import *
 
 class Gui() :
 
@@ -14,8 +15,8 @@ class Gui() :
     windowSurface = None
     renderer = None
     police = None
-    type_plante = ["tomate", "basilic"]
     plantes = []
+    historique = None
 
     #fonction temporaire :
     def pprint(self,a) :
@@ -43,6 +44,7 @@ class Gui() :
 
         self.police =  sdlttf.TTF_OpenFont(b"Roboto.ttf", 65)
         self.plantes = plantes
+        self.historique = [[self, "accueil"]]
 
     #nettoie l'ecran entre deux appel à une fenetre.
     def clean(self) :
@@ -52,7 +54,29 @@ class Gui() :
         SDL_SetRenderDrawColor(self.renderer, 255, 255, 255, 255)
         #nettoie la fenetre
         SDL_RenderClear(self.renderer)
+        #ce bouton est afficher à chaque fenetre donc on va (temporairement) le mettre ici.
+        self.bouton_retour_arriere()
 
+
+    def bouton_retour_arriere(self) :
+        if(len(self.historique) >= 2) :
+            #load the pictures of the plants.
+            img = IMG_LoadTexture(self.renderer, str.encode("pictures/retour.jpg"))
+            SDL_RenderCopy(self.renderer, img, None, SDL_Rect(0, 0, 50, 50))
+            self.boutons.append([0, 0, 50, 50, self, "retour_arriere"] )
+
+
+    def retour_arriere(self) :
+        #on supprime tout de suite retour_arriere de l'historique
+        del self.historique[-1]
+
+        fenetre = self.historique[-2]
+        f = getattr(fenetre[0], fenetre[1])
+        del self.historique[-1] #on supprime de l'historique la fenetre sur laquelle on retourne.
+        if len(fenetre) < 3 :
+            f()
+        else :
+            f(fenetre[2])
 
     #verifie les clics
     def event(self) :
@@ -66,10 +90,13 @@ class Gui() :
             if event.type == SDL_MOUSEBUTTONUP:
                 for button in self.boutons :
                     if (event.button.x >= button[0] and event.button.x <= button[2] and event.button.y >= button[1] and event.button.y <= button[3]):
+                        if (len(button) <= 6) :
+                            self.historique.append([button[4], button[5]])
                         f = getattr(button[4], button[5])
                         #c = getattr(button[4])
                         if(len(button) > 6) :
                             f(button[6])
+                            self.historique.append([button[4], button[5], button[6]])
                         else :
                             f()
         SDL_Delay(15)
@@ -89,8 +116,8 @@ class Gui() :
         texture = SDL_CreateTextureFromSurface(self.renderer, texte)    #creation d'une texture depuis le texte
         SDL_RenderCopy(self.renderer, texture, None, SDL_Rect(100, 20, 250, 150))   #applique la texture sur la fenetre dans un rectangle
 
-        for i in range(len(self.type_plante)) :
-            if (self.plantes[i] == "tomate") :
+        for i in range(len(self.plantes)) :
+            if (self.plantes[i].type == "tomate") :
                 SDL_RenderCopy(self.renderer, img_tomate, None, SDL_Rect((i+1)*75, 150, 50, 50))
             else :
                 SDL_RenderCopy(self.renderer, img_basilic, None, SDL_Rect((i+1)*75, 150, 50, 50))
@@ -155,7 +182,11 @@ class Gui() :
                 SDL_RenderCopy(self.renderer, img_tomate, None, SDL_Rect((i+1)*75, 350, 50, 50))
             else :
                 SDL_RenderCopy(self.renderer, img_basilic, None, SDL_Rect((i+1)*75, 350, 50, 50))
-            self.boutons.append([(i+1)*75, 350, (i+1)*75+50, 400, self, "pprint", str("appel a la fonction qui appele la fonction ma_plante pour la plante " + self.plantes[i])] )
+            self.boutons.append([(i+1)*75, 350, (i+1)*75+50, 400, self, "pprint", str("appel a la fonction qui appele la fonction ma_plante pour la plante " + self.plantes[i].getName())] )
+
+            texte = sdlttf.TTF_RenderText_Solid(self.police, str.encode(self.plantes[i].getName()), SDL_Color(0, 0, 0))  #on met du texte sur le bouton
+            texture = SDL_CreateTextureFromSurface(self.renderer, texte)
+            SDL_RenderCopy(self.renderer, texture, None, SDL_Rect(400, 350, 50, 50))
 
         SDL_SetRenderDrawColor(self.renderer, 200, 200, 200, 255)   #colorie un retangle (pour materialiser le bouton)
         SDL_RenderFillRect(self.renderer, SDL_Rect(400, 350, 50, 50))
@@ -179,7 +210,7 @@ class Gui() :
             texte = sdlttf.TTF_RenderText_Solid(self.police, str.encode(str(question[i])), SDL_Color(0, 0, 0))
             texture = SDL_CreateTextureFromSurface(self.renderer, texte)
             SDL_RenderCopy(self.renderer, texture, None, SDL_Rect(100, 150+((i-1)*100), 300, 100))
-            self.boutons.append([100, 150+((i-1)*100), 300, 150+((i)*100), self, str(question[-1]), str(question[i])])#remplacer self par plante ou main (je ne sais pas). penser à faire un include
+            self.boutons.append([100, 150+((i-1)*100), 300, 150+((i)*100), question[-2], str(question[-1]), str(question[i])])#remplacer self par plante ou main (je ne sais pas). penser à faire un include
 
         SDL_RenderPresent(self.renderer)     #mis a jour de l'affichage de la fenetre (rien n'est afficher avant)
 
@@ -205,17 +236,17 @@ class Gui() :
 
 
 #exemple d'utilisation :
-"""
-plante_existante = ["tomate", "basilic"]
-a = Gui(plante_existante)
 
-a.nouvelle_plante()
+plante_existante = Basilic("toto")
+print(plante_existante.Name)
+a = Gui([plante_existante])
+
+#a.nouvelle_plante()
 a.accueil()
-#a.acquisition(["ma question blablabla","oui","non","je ne sais pas","pprint"])
+#a.acquisition(["ma question blablabla","oui","non","je ne sais pas",a,"pprint"])
 #a.diagnostique("ta plante a un probleme")
 #a.ma_plante("toto", [1,2,5], [["a temps","arrosage"],["trop tard","rempotage"],["trop tôt","mettre de l'engrais"]], [4,8,3])
 
 #boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le event())
 while a.run :
     a.event()
-"""
