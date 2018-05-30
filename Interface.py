@@ -8,7 +8,7 @@ from Basilic import *
 
 class Gui() :
 
-    plantes = [] #type de plante : "tomate, "basilique", ...
+    type_de_plantes = ["tomate", "basilic"] #type de plante : "tomate, "basilique", ...
     boutons = [] #[x,y,h,w, methode à appeler, argument(s)]
     window = None
     run = True
@@ -137,23 +137,16 @@ class Gui() :
 
     #fenetre d'ajout de plante.
     def nouvelle_plante(self) :
-        #load the pictures of the plants.
-        img_tomate = IMG_LoadTexture(self.renderer, str.encode("pictures/icone_tomate.png"))
-        img_basilic = IMG_LoadTexture(self.renderer, str.encode("pictures/basilic.png"))
-
         couleurNoire = SDL_Color(0, 0, 0)#couleur du texte
         texte = sdlttf.TTF_RenderText_Solid(self.police, b"Mon petit jardinier", couleurNoire)  #creation du texte
         texture = SDL_CreateTextureFromSurface(self.renderer, texte)    #creation d'une texture depuis le texte
         SDL_RenderCopy(self.renderer, texture, None, self.creation_rectangle("sdl_rect", 10, 5, 80, 5));  #applique la texture sur la fenetre dans un rectangle
 
-        for i in range(len(self.plantes)) :
-            if (self.plantes[i].type == "tomate") :
-                SDL_RenderCopy(self.renderer, img_tomate, None, self.creation_rectangle("sdl_rect", (i+1)*12, 33, 10, 10))
-            else :
-                SDL_RenderCopy(self.renderer, img_basilic, None, self.creation_rectangle("sdl_rect", (i+1)*12, 33, 10, 10))
-
+        for i in range(len(self.type_de_plantes)) :
+            img = IMG_LoadTexture(self.renderer, str.encode("pictures/" + self.type_de_plantes[i] + ".png"))
+            SDL_RenderCopy(self.renderer, img, None, self.creation_rectangle("sdl_rect", (i+1)*12, 33, 10, 10))
             #création du bouton
-            self.boutons.append([self.creation_rectangle("bouton", (i+1)*12, 33, 10, 10), self, "pprint", " il faut lier ce bouton à fonction_pour_creer_une_plante(type_de_plante)"])
+            self.boutons.append([self.creation_rectangle("bouton", (i+1)*12, 33, 10, 10), self, "pprint", " il faut lier ce bouton à fonction_pour_creer_une_plante()"])
 
 
     #fenetre d'affichage de plante.
@@ -254,7 +247,7 @@ class Gui() :
 
 
 #exemple d'utilisation :
-
+"""
 plante_existante = [Basilic("toto")]
 plante_existante.append(Tomate("titi"))
 a = Gui(plante_existante)
@@ -268,3 +261,4 @@ a.accueil()
 #boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le event())
 while a.run :
     a.affichage()
+"""
