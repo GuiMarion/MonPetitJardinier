@@ -54,8 +54,6 @@ class Gui() :
         SDL_SetRenderDrawColor(self.renderer, 255, 255, 255, 255)
         #nettoie la fenetre
         SDL_RenderClear(self.renderer)
-        #ce bouton est afficher à chaque fenetre donc on va (temporairement) le mettre ici.
-        self.bouton_retour_arriere()
 
 
     def bouton_retour_arriere(self) :
@@ -90,7 +88,6 @@ class Gui() :
             if event.type == SDL_MOUSEBUTTONUP:
                 for button in self.boutons :
                     if (event.button.x >= button[0][0] and event.button.x <= button[0][2] and event.button.y >= button[0][1] and event.button.y <= button[0][3]) :
-                        print(button)
                         if (len(button) <= 3) :
                             self.historique.append([button[1], button[2]])
                         f = getattr(button[1], button[2])
@@ -127,6 +124,7 @@ class Gui() :
     def affichage(self) :
         #nettoyage de la fenetre actuelle.
         self.clean()
+        self.bouton_retour_arriere()
         #recuperation de la fenetre courante.
         self.historique.append(["temp data"])
         self.historique.append(["temp data"])
