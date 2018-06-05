@@ -33,38 +33,6 @@ class Tomate(Plante.Plante):
 
 			return(self)
 
-
-	def A2(self, interface):
-		# Procédure germination
-		if self.Pot:
-				interface.acquisition("Vous avez choisi de panter en pot, c'est une très bonne idée. Pour cela \
-					nous vous conseillons de mettre vos graines dans du coton humide pour les faire \
-					germer. Revenez nous voir une fois fait.",["ok"], [[self, "A3", interface]])
-		else :
-				interface.acquisition("Vous evez choisi de planter en terre, c'est une très bonne idée. Pour cela \
-					nous vous conseillons de mettre vos graines directement dans la terre. Revenez nous voir \
-					une fois une pousse sortie de la terre.",["ok"], [[self, "A3", interface]])
-
-
-	def A3(self, interface):
-		# Acquisition germination
-		self.state = 3
-		if self.Pot:
-			interface.acquisition("Votre graine a-t-elle germée ? Si c'est le cas un germe à du sortir. ", ["oui"], [[self, "A4", interface]])
-		"""
-			if rep == 'n':
-				print("Revenez vers nous une fois qu'elle aura germée.")
-		"""
-
-
-	def A4(self, interface):
-		self.state = 4
-		# Procédure pour mettre la graine en terre (cas Pot = 1)
-		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
-			préalablement désinfectée et la déposer dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
-			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser.",["ok"], [[self, "A5", [interface, None]]])
-
-
 	def A5(self, interface, reponse):
 		# Acquisition lumière
 		self.state = 5
@@ -78,45 +46,26 @@ class Tomate(Plante.Plante):
 				Que voulez-vous faire ?",["lampe", "lumiere naturelle"], [[self, "A5", [interface, "lampe"]], [self, "A5", [interface, "lumiere naturelle"]]])
 
 
-		if reponse == "lampe" or self.Lampe == True:
+		if reponse == "lampe":
 			self.Lampe = True
 			interface.acquisition("C'est un très bon choix. La lampe est-elle une HPS ? "
-			,["oui", "non"], [[self, "A5", [interface, "oui"]], [self, "A5", [interface, "non"]]])
+			,["oui", "non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
 
-			self.Lampe_HPS = (reponse == 'oui')
+		if reponse == "HPS" :
+			self.Lampe_HPS = True
 
 			print("Quelle est la puissance (en watts)")
 			rep = input()
 			self.Lampe_puissance = int(rep)
 			self.A6(interface, None)
 
-		elif reponse == "lumiere naturelle" or self.Lampe == False:
+		elif reponse == "lumiere naturelle":
 			self.Lampe = False
 			interface.acquisition("C'est un très bon choix. Nous attirons votre attention sur le fait qu'il vous faut\
 				être attentif à l'ensoleillement de votre plante (au moins 6h de plein soleil par jours)\
 				ainsi qu'au risque climatique et naturels (grêle, pluit, vent, ...) que notre application\
 				ne pourra pas prévoir.",["ok"], [[self, "A6", [interface, None]]])
 
-
-	def A6(self, interface, reponse):
-		# Acquisition engrais
-		self.state = 6
-
-		if reponse == None :
-			interface.acquisition("Voulez-vous utiliser des engrais ? ",["oui", "non"], [[self, "A6", [interface, "oui"]], [self, "A6", [interface, "non"]]])
-
-		self.Engrais = (reponse == 'oui')
-
-		if self.Engrais:
-			print("Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
-				la bouteille.")
-			rep = input()
-			self.Engrais_quantite = int(rep)
-
-			interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
-				un arrosage pour deux.",["1", "2"], [[self, "A6", [interface, 1]], [self, "A6", [interface, 2]]])
-
-		self.A7(interface)
 
 
 	def A7(self, interface):
@@ -141,16 +90,6 @@ class Tomate(Plante.Plante):
 					la taille de vos plantes afin de vous indiquer les autres démarches à suivre."
 					, ["ok"], [[interface, "accueil"]])
 
-
-	def A8(self):
-		# Acquisition taille
-		self.state =  8
-
-		print("Quelle est la taille de votre plante ? (en cm)")
-		rep = input()
-		self.Taille = int(rep)
-
-		self.A9()
 
 
 	def A9(self, interface):
@@ -204,9 +143,3 @@ class Tomate(Plante.Plante):
 		else :
 			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
 				, ["ok"], [[interface, "ma_plante", self]])
-
-
-	def A11(self):
-
-		print("C'est fini")
-		return self
