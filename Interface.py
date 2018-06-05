@@ -68,8 +68,8 @@ class Gui() :
 
         for elem in L:
             Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(0, 0, 0))
-            texture = SDL_CreateTextureFromSurface(self.renderer, Text)
-            self.elmt_afficher.append([self.renderer, texture, None, self.creation_rectangle("sdl_rect", x, y, 15, 10)])
+            a = [Text, None, self.windowSurface, SDL_Rect(x,y)]
+            self.elmt_afficher.append(a)
 
         sdlttf.TTF_CloseFont(police)
 
@@ -262,10 +262,12 @@ class Gui() :
 
         police =  sdlttf.TTF_OpenFont(str.encode(self.police), 20)
         couleurNoire = SDL_Color(0, 0, 0)
-        texte = sdlttf.TTF_RenderUTF8_Blended(police, b"Mon petit jardinier", couleurNoire); #création du texte
+        #texte = sdlttf.TTF_RenderUTF8_Blended(police, b"Mon petit jardinier", couleurNoire); #création du texte
 
-        a = [texte, None, self.windowSurface, SDL_Rect(10,10)]
-        self.elmt_afficher.append(a)
+        #a = [texte, None, self.windowSurface, SDL_Rect(10,10)]
+        #self.elmt_afficher.append(a)
+
+        self.printT(60, 10, 10, "angelina", "Mon petit jardinier")
 
         for i in range(len(self.plantes)) :
             if (type(self.plantes[i]) == Tomate) :
