@@ -53,3 +53,76 @@ class Plante :
 			self.Pot = reponse
 			self.state = 2
 			self.A2(interface)
+
+
+
+	def A2(self, interface):
+		# Procédure germination
+		if self.Pot:
+				interface.acquisition("Vous avez choisi de panter en pot, c'est une très bonne idée. Pour cela \
+					nous vous conseillons de mettre vos graines dans du coton humide pour les faire \
+					germer. Revenez nous voir une fois fait.",["ok"], [[self, "A3", interface]])
+		else :
+				interface.acquisition("Vous evez choisi de planter en terre, c'est une très bonne idée. Pour cela \
+					nous vous conseillons de mettre vos graines directement dans la terre. Revenez nous voir \
+					une fois une pousse sortie de la terre.",["ok"], [[self, "A3", interface]])
+
+
+
+	def A3(self, interface):
+		# Acquisition germination
+		self.state = 3
+		if self.Pot:
+			interface.acquisition("Votre graine a-t-elle germée ? Si c'est le cas un germe à du sortir. ", ["oui"], [[self, "A4", interface]])
+		"""
+			if rep == 'n':
+				print("Revenez vers nous une fois qu'elle aura germée.")
+		"""
+
+
+
+	def A4(self, interface):
+		self.state = 4
+		# Procédure pour mettre la graine en terre (cas Pot = 1)
+		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
+			préalablement désinfectée et la déposer dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
+			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser.",["ok"], [[self, "A5", [interface, None]]])
+
+
+	def A6(self, interface, reponse):
+		# Acquisition engrais
+		self.state = 6
+
+		if reponse == None :
+			interface.acquisition("Voulez-vous utiliser des engrais ? ",["oui", "non"], [[self, "A6", [interface, "oui"]], [self, "A6", [interface, "non"]]])
+
+		self.Engrais = (reponse == 'oui')
+
+		if self.Engrais:
+			print("Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
+				la bouteille.")
+			rep = input()
+			self.Engrais_quantite = int(rep)
+
+			interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
+				un arrosage pour deux.",["1", "2"], [[self, "A6", [interface, 1]], [self, "A6", [interface, 2]]])
+
+		self.A7(interface)
+
+
+def A8(self):
+	# Acquisition taille
+	self.state =  8
+
+	print("Quelle est la taille de votre plante ? (en cm)")
+	rep = input()
+	self.Taille = int(rep)
+
+	self.A9()
+
+
+
+def A11(self):
+	self.state = 11
+	interface.acquisition("felicitation, au cours de ces quelques mois vous avez appris beaucoup sur le jardinage."
+		, ["ok"], [[interface, "accueil"]])
