@@ -77,12 +77,12 @@ if __name__ == "__main__":
 		if sys.argv[1] == "Reset":
 			A.reset()
 		elif sys.argv[1] == "Start":
-			gui = Gui(A.Plantes )
+			gui = Gui(A.Plantes)
 			while gui.run :
 			    gui.affichage()
 			#il faut sauvegarder le nouvel état des plantes
 		else :
-			print("Usage: Python3 App.py <Start or reset>")
+			print("Usage: Python3 App.py <Start or pop_upreset>")
 
 
 	else:

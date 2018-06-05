@@ -10,16 +10,6 @@ class Basilic(Plante.Plante):
 		Plante.Plante.__init__(self,name)
 		self.type = "basilic"
 
-	def q(self, state):
-
-		self.state = state
-
-		print("Voulez-vous quitter ? o/n")
-		q = input()
-		while q != 'o' and q != 'n':
-			q = input("Nous n'avons pas compris.")
-
-		return (q == 'o')
 
 	def Recolte(self):
 
@@ -28,37 +18,6 @@ class Basilic(Plante.Plante):
 				murs. Bravo, notre travail est terminé !")
 
 			return(self)
-
-
-	def Arrosage(self):
-
-		if (self.Arrosage_last - datetime.datetime.now()).days > 3:
-			print("Il est temps d'arroser, pour cela remplissez lentement le pot d'eau. Il faut qu'après\
-			l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent.")
-
-		if self.Engrais:
-			print("Vous devraient aussi mettre de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
-
-		self.Arrosage_last = datetime.datetime.now()
-
-	def A1(self):
-		# Acquisition pot/terre
-		print("Bonjour, vous avez decidez de planter une plante avec notre logiciel, bravo ! \
-			Nous avons tout d'abord besoin d'une information, voulez-vous planter en pot ou en terre ? (p/t)")
-
-		rep = input()
-
-		while rep != 'p' and rep != 't':
-			rep = input("Nous n'avons pas compris \n")
-
-		print("Très bien.")
-
-		self.Pot = (rep == 'p')
-
-
-		if self.q(1):
-			return(self)
-		self.A2()
 
 	def A2(self):
 		# Procédure germination

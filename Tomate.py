@@ -34,59 +34,31 @@ class Tomate(Plante.Plante):
 			return(self)
 
 
-	def A2(self):
+	def A2(self, interface):
 		# Procédure germination
-
 		if self.Pot:
-			print("Vous avez choisi de panter en pot, c'est une très bonne idée. Pour cela \
-				nous vous conseillons de mettre vos graines dans du coton humide pour les faire\
-				germer. Revenez nous voir une fois fait.")
+				interface.acquisition("Vous avez choisi de panter en pot, c'est une très bonne idée. Pour cela \
+					nous vous conseillons de mettre vos graines dans du coton humide pour les faire \
+					germer. Revenez nous voir une fois fait.",["ok"], [[self, "A3", interface]])
 		else :
-			print("Vous evez choisi de planter en terre, c'est une très bonne idée. Pour cela \
-				nous vous conseillons de mettre vos graines directement dans la terre. Revenez nous voir \
-				une fois une pousse sortie de la terre.")
+				interface.acquisition("Vous evez choisi de planter en terre, c'est une très bonne idée. Pour cela \
+					nous vous conseillons de mettre vos graines directement dans la terre. Revenez nous voir \
+					une fois une pousse sortie de la terre.",["ok"], [[self, "A3", interface]])
 
 
-		if self.q(2):
-			return(self)
-		self.A3()
-
-
-	def A3(self):
+	def A3(self, interface):
 		# Acquisition germination
-
+		self.state = 3
 		if self.Pot:
-
-			print("Votre graine a-t-elle germée ? (o/n)")
-
-			rep = input()
-
-			while rep != 'o' and rep != 'n':
-				rep = input("Nous n'avons pas compris\n")
-
+			interface.acquisition("Votre graine a-t-elle germée ? Si c'est le cas un germe à du sortir. ", ["oui"], [[self, "A4", interface]])
+		"""
 			if rep == 'n':
 				print("Revenez vers nous une fois qu'elle aura germée.")
-				if self.q(3):
-					return(self)
-				self.A3()
-			else :
-				self.A4()
-
-		else:
-			print("Avez-vous apperçu un germe sortir ?")
-			# Intégrer photos
-			rep = input()
-
-			while rep != 'o' and rep != 'n':
-				rep = input("Nous n'avons pas compris\n")
-
-			if rep == 'n':
-				print("Revenez vers nous une fois qu'elle aura germée.")
-			else :
-				self.A5()
+		"""
 
 
 	def A4(self, interface):
+		self.state = 4
 		# Procédure pour mettre la graine en terre (cas Pot = 1)
 		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
 			préalablement désinfectée et la déposer dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
@@ -95,6 +67,7 @@ class Tomate(Plante.Plante):
 
 	def A5(self, interface, reponse):
 		# Acquisition lumière
+		self.state = 5
 
 		if reponse == None :
 			interface.acquisition("Votre plante est desormais en terre, il lui faudra maintenant de la lumière pour vivre.\
@@ -102,87 +75,77 @@ class Tomate(Plante.Plante):
 				il vous faudra beaucoup de lumière, la lumière naturelle sera donc appropriée dans une région\
 				ensoleillée et qui n'est pas à l'ombre. Une lampe agricole peut être utilisée seule ou en\
 				complément et devra être d'au moins 125-250 watts (ce qui a un coût en élécricité.)\n\
-				Que voulez-vous faire ?",["lampe", "exterieur"], [[self, "A5", [interface, "lampe"]], [self, "A5", [interface, "exterieur"]]])
+				Que voulez-vous faire ?",["lampe", "lumiere naturelle"], [[self, "A5", [interface, "lampe"]], [self, "A5", [interface, "lumiere naturelle"]]])
 
 
-		if reponse == "lampe":
+		if reponse == "lampe" or self.Lampe == True:
 			self.Lampe = True
-			print("C'est un très bon choix. La lampe est-elle une HPS ? (o/n)")
+			interface.acquisition("C'est un très bon choix. La lampe est-elle une HPS ? "
+			,["oui", "non"], [[self, "A5", [interface, "oui"]], [self, "A5", [interface, "non"]]])
 
-			rep = input()
-			while rep != 'o' and rep != 'n':
-				rep = input()
-
-			self.Lampe_HPS = (rep == 'o')
+			self.Lampe_HPS = (reponse == 'oui')
 
 			print("Quelle est la puissance (en watts)")
-
 			rep = input()
-
 			self.Lampe_puissance = int(rep)
+			self.A6(interface, None)
 
-		else:
-			print("C'est un très bon choix. Nous attirons votre attention sur le fait qu'il vous faut\
+		elif reponse == "lumiere naturelle" or self.Lampe == False:
+			self.Lampe = False
+			interface.acquisition("C'est un très bon choix. Nous attirons votre attention sur le fait qu'il vous faut\
 				être attentif à l'ensoleillement de votre plante (au moins 6h de plein soleil par jours)\
-				ainsi qu'au risque climatique et naturels (grêle, pluit, vente, ...) que notre application\
-				ne pourra pas prévoir.")
-
-		self.A6()
+				ainsi qu'au risque climatique et naturels (grêle, pluit, vent, ...) que notre application\
+				ne pourra pas prévoir.",["ok"], [[self, "A6", [interface, None]]])
 
 
-	def A6(self):
-		# Acquisitino engrais
+	def A6(self, interface, reponse):
+		# Acquisition engrais
+		self.state = 6
 
-		print("Voulez-vous utiliser des engrais ? (o/n)")
-		rep = input()
-		while rep != 'o' and rep != 'n':
-			rep = input()
+		if reponse == None :
+			interface.acquisition("Voulez-vous utiliser des engrais ? ",["oui", "non"], [[self, "A6", [interface, "oui"]], [self, "A6", [interface, "non"]]])
 
-		self.Engrais = (rep == 'o')
+		self.Engrais = (reponse == 'oui')
 
 		if self.Engrais:
 			print("Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
 				la bouteille.")
-
 			rep = input()
-
 			self.Engrais_quantite = int(rep)
 
-			print("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
-				un arrosage pour deux.)")
+			interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
+				un arrosage pour deux.",["1", "2"], [[self, "A6", [interface, 1]], [self, "A6", [interface, 2]]])
 
-			rep = input()
-
-			self.Engrais_freq = int(rep)
-
-		self.A7()
+		self.A7(interface)
 
 
-	def A7(self):
+	def A7(self, interface):
 		# Affichage croissance
+		self.state = 7
 
 		if self.Lampe:
-			print("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
-				construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
-				de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
-				La photopériode doit être reglée entre à 18h de lumière par jour, utiliser une minuteur que vous pourrez\
-				vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
-				de lumière possible est une bonne pratique.\n\
-				Une fois fait, bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
-				l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
-				la taille de vos plantes afin de vous indiquer les prochaines démarches.")
+				interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
+					construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
+					de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
+					La photopériode doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez\
+					vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
+					de lumière possible est une bonne pratique.\n\
+					Une fois fait, bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
+					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
+					la taille de vos plantes afin de vous indiquer les prochaines démarches."
+					,["ok"], [[interface, "accueil"]])
 
 		else :
-			print("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
-				l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
-				la taille de vos plantes afin de vous indiquer les autres démarches à suivre.")
-
-		self.A8()
+				interface.acquisition("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
+					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
+					la taille de vos plantes afin de vous indiquer les autres démarches à suivre."
+					, ["ok"], [[interface, "accueil"]])
 
 
 	def A8(self):
-
 		# Acquisition taille
+		self.state =  8
+
 		print("Quelle est la taille de votre plante ? (en cm)")
 		rep = input()
 		self.Taille = int(rep)
@@ -190,85 +153,60 @@ class Tomate(Plante.Plante):
 		self.A9()
 
 
-	def A9(self):
-
+	def A9(self, interface):
 		#Affichage rempotage/ taille/ floraison
+		self.state = 9
 
-		if self.Taille >15 and self.Pot and self.Rempoter == 0:
-			print("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
+		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
+			interface.acquisition("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
 				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
 				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
-				de terreau, tassez, puis arrosez.")
-			self.Rempoter +=1
+				de terreau, tassez, puis arrosez."
+				, ["d'accord"], [[interface, "accueil"]])
 
-		if self.Taille > 25 and self.Pot and self.Rempoter == 1:
-			print("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
-				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
-				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
-				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
-				de terreau, tassez, puis arrosez.")
 			self.Rempoter +=1
 
 		if self.Taille > 30 and self.Lampe:
-			print("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour\
+			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour\
 				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la\
-				photopériode à 12h de lumière par jour. ")
+				photopériode à 12h de lumière par jour."
+				, ["d'accord"], [[interface, "accueil"]])
 
 		if self.Taille > 35:
-			print("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer\
+			interface.acquisition("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer\
 			la taille de votre plante. Il vous faut couper les petits débuts de fleurs qui sont trop bas pour prendre\
 			la lumière (les gourmandes) et les parties qui ne prendrons pas la lumière. Ne coupez pas les grosses feuilles,\
 			elles contiennent beaucoup d'energie que la plante peut quand même utiliser, s'il elle n'en a plue besoin\
-			elle s'en débarassera d'elle même.")
+			elle s'en débarassera d'elle même."
+				, ["d'accord"], [[self, "A10", [interface, None]]])
 
 			self.A10()
 
 		else :
-			self.A8()
+			interface.acquisition("Vous n'avez rien a faire pour le moment."
+				, ["d'accord"], [[interface, "accueil"]])
 
 
-	def A10(self):
+	def A10(self, interface, reponse):
 		# Acquisition floraison
-		print("Vous devriez être passé en floraison et avoir effectué les premières tailles. Est-ce bien le cas ? (o/n")
+		self.state = 10
 
-		rep = input()
-		while rep != 'o' and rep != 'n':
-			rep = input("Nous n'avons pas compris\n")
+		if reponse == None :
+			interface.acquisition("Vous devriez être passé en floraison et avoir effectué les premières tailles. Est-ce bien le cas ?"
+				, ["oui", "non"], [[self, "A10", [interface, "oui"]], [self, "A10", [interface, "non"]]])
 
-		if rep == 'o':
+		if reponse == 'oui' :
 			self.Floraison = True
 			self.Floraison_début = datetime.date.today()
-			print("Très bien vous pouvons continuer")
+			interface.acquisition("Très bien vous pouvons continuer"
+				, ["ok"], [[self, "A11", interface]])
 		else :
-			print("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures.")
-
-		self.A11()
+			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
+				, ["ok"], [[interface, "ma_plante", self]])
 
 
 	def A11(self):
 
 		print("C'est fini")
 		return self
-
-
-	def launch(self):
-
-		switcher = {
-			1: self.A1,
-			2: self.A2,
-			3: self.A3,
-			4: self.A4,
-			5: self.A5,
-			6: self.A6,
-			7: self.A7,
-			8: self.A8,
-			9: self.A9,
-			10: self.A10,
-			11: self.A11
-		}
-
-
-		switcher[self.state]()
-
-		return (self)
