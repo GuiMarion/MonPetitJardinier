@@ -20,11 +20,7 @@ class Gui() :
     plantes = []
     historique = []
     elmt_afficher = []
-    police = "Fonts/angelina.ttf"
 
-    #fonction temporaire :
-    def pprint(self,a) :
-        print(a)
 
     def __init__(self, plantes):
         #initialisation de la sdl
@@ -68,7 +64,7 @@ class Gui() :
 
         for elem in L:
             Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(0, 0, 0))
-            a = [Text, None, self.windowSurface, SDL_Rect(x,y)]
+            a = [Text, SDL_Rect(x,y)]
             self.elmt_afficher.append(a)
 
         sdlttf.TTF_CloseFont(police)
@@ -138,34 +134,20 @@ class Gui() :
 
 
 
-    #x,y,largeur et hauteur sont des pourcentage de la taille de la fenetre. type = "sdl_rect" ou "bouton"
-    def creation_rectangle(self, type, x,y,largeur, hauteur) :
-        #récupére la taille de l'ecran.
-        largeur_ecran = ctypes.pointer(ctypes.c_int(0))
-        hauteur_ecran = ctypes.pointer(ctypes.c_int(0))
-        SDL_GetWindowSize(self.window, largeur_ecran, hauteur_ecran)
-        largeur_ecran = largeur_ecran.contents.value
-        hauteur_ecran = hauteur_ecran.contents.value
-
-        #calcul du rectangle
-        x = x * largeur_ecran // 100
-        largeur = largeur * largeur_ecran // 100
-        y = y * hauteur_ecran // 100
-        hauteur = hauteur * hauteur_ecran // 100
-        if type == "sdl_rect" :
-            return SDL_Rect(x, y, largeur, hauteur)
-        else :
-            return x, y, largeur+x, hauteur+y
-
     #affiche la fenetre en cours et verifie les events.
     def affichage(self) :
         #nettoyage de la fenetre actuelle.
         self.clean()
-        self.bouton_retour_arriere()
+        #self.bouton_retour_arriere()
 
         #affichage de la fenetre courante.
         for a in self.elmt_afficher :
-            SDL_BlitSurface(a[0], a[1], a[2], a[3])
+            SDL_BlitSurface(a[0], None, self.windowSurface, a[1])
+
+        #pour permettre de visualiser les boutons :
+        for button in self.boutons :
+            SDL_FillRect(self.windowSurface, SDL_Rect(button[0][0], button[0][1], (button[0][2] - button[0][0]), (button[0][3] -button[0][1])), 0x200002)
+            print(button[0])
 
         #verification des events.
         self.event()
@@ -181,23 +163,17 @@ class Gui() :
         self.elmt_afficher = []
         self.historique.append([self, "nouvelle_plante"])
 
-        couleurNoire = SDL_Color(0, 0, 0)#couleur du texte
-        texte = sdlttf.TTF_RenderUTF8_Blended(self.police, b"Mon petit jardinier", couleurNoire)  #creation du texte
-        texture = SDL_CreateTextureFromSurface(self.renderer, texte)    #creation d'une texture depuis le texte
-        SDL_RenderCopy(self.renderer, texture, None, self.creation_rectangle("sdl_rect", 10, 5, 80, 5));  #applique la texture sur la fenetre dans un rectangle
+        self.printT(60, 10, 10, "angelina", "mon petit jardinier")
 
         for i in range(len(self.type_de_plantes)) :
-            img = IMG_LoadTexture(self.renderer, str.encode("pictures/" + self.type_de_plantes[i] + ".png"))
-            self.elmt_afficher.append([self.renderer, img, None, self.creation_rectangle("sdl_rect", (i+1)*12, 33, 10, 10)])
+            img = SDL_LoadBMP(str.encode("pictures/" + self.type_de_plantes[i] + ".bmp"))
+            self.elmt_afficher.append([img, SDL_Rect(i*50, 300)])
             #création du bouton
-            self.boutons.append([self.creation_rectangle("bouton", (i+1)*12, 33, 10, 10), self, "creation_plante", self.type_de_plantes[i]])
+            self.boutons.append([(i*50, 300, i*50+25, 325), self, "creation_plante", self.type_de_plantes[i]])
 
 
     #fonction ajoutant une plante à self.plante
     def creation_plante(self, type_de_plantes) :
-        print(self.historique)
-        print("\n\n\n")
-        del(self.historique[-1])
         #ask name
         #name = input()
         name = "toto"
@@ -208,23 +184,17 @@ class Gui() :
     #fenetre d'affichage de plante.
     def ma_plante(self, plante) :
         self.elmt_afficher = []
-        self.bouton = []
+        self.boutons = []
         self.historique.append([self,  "ma_plante", [plante]])
 
-        texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(plante.getName()), SDL_Color(0, 0, 0))  #création du texte
-        texture = SDL_CreateTextureFromSurface(self.renderer, texte)                #creation d'une texture depuis le texte
-        self.elmt_afficher.append([self.renderer, texture, None, self.creation_rectangle("sdl_rect", 34, 5, 8, 6)])
-        SDL_FreeSurface(texte)
+        self.printT(60, 10, 10, "angelina", plante.getName())
+
         past_task = plante.etapes[:plante.state]
         advised_task =plante.etapes[plante.state]
         futur_task = plante.etapes[(plante.state+1):]
 
         for i in range(len(past_task)) :
-            SDL_RenderFillRect(self.renderer, self.creation_rectangle("sdl_rect", i*12, 22, 11, 10))
-            texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(str(past_task[i])), SDL_Color(0, 0, 0))
-            texture = SDL_CreateTextureFromSurface(self.renderer, texte)
-            self.elmt_afficher.append([self.renderer, texture, None, self.creation_rectangle("sdl_rect", i*12, 22, 11, 10)])
-            SDL_FreeSurface(texte)
+            self.printT(60, i*60+10, 120, "angelina", str(past_task[i]))
 
         """for i in range(len(advised_task)) :
             if advised_task[i][0] == "a temps" :
@@ -234,21 +204,12 @@ class Gui() :
             else :
                 color = SDL_Color(230, 230, 255)
         """
-        color = SDL_Color(230, 230, 255)
-        SDL_RenderFillRect(self.renderer, self.creation_rectangle("sdl_rect", i*20+4, 44, 22, 20))
-        texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(advised_task), color)
-        texture = SDL_CreateTextureFromSurface(self.renderer, texte)
-        self.elmt_afficher.append([self.renderer, texture, None, self.creation_rectangle("sdl_rect", i*20+4, 44, 22, 20)])
-        self.boutons.append([self.creation_rectangle("bouton", i*20+4, 44, 22, 20), plante, advised_task, self])
-        SDL_FreeSurface(texte)
+        #color = SDL_Color(230, 230, 255)
+        self.printT(60, 80, 220, "angelina", str(advised_task))
+        self.boutons.append([(80, 220, 90, 230), plante, advised_task, self])
 
         for i in range(len(futur_task)) :
-            sdl_rect = self.creation_rectangle("sdl_rect", i*10+4, 20*(i//10)+86, 11, 10)
-            SDL_RenderFillRect(self.renderer, sdl_rect)
-            texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(str(futur_task[i])), SDL_Color(0, 0, 0))
-            texture = SDL_CreateTextureFromSurface(self.renderer, texte)
-            self.elmt_afficher.append([self.renderer, texture, None, sdl_rect])
-            SDL_FreeSurface(texte)
+            self.printT(60, i*80+10, 420, "angelina", str(futur_task[i]))
 
 
     #affiche la fenetre d'accueil.
@@ -260,26 +221,19 @@ class Gui() :
         img_tomate = SDL_LoadBMP(b"pictures/Tomate.bmp")
         img_basilic = SDL_LoadBMP(b"pictures/Basilic.bmp")
 
-        police =  sdlttf.TTF_OpenFont(str.encode(self.police), 20)
-        couleurNoire = SDL_Color(0, 0, 0)
-
         self.printT(60, 10, 10, "angelina", "Mon petit jardinier")
 
         for i in range(len(self.plantes)) :
             if (type(self.plantes[i]) == Tomate) :
-                self.elmt_afficher.append([img_tomate, None, self.windowSurface, SDL_Rect(i*50, 300)])
+                self.elmt_afficher.append([img_tomate, SDL_Rect(i*50, 300)])
             else :
-                self.elmt_afficher.append([img_basilic, None, self.windowSurface, SDL_Rect(i*50, 300)])
-            self.boutons.append([self.creation_rectangle("bouton", (i+1)*12, 75, 10, 10), self, "ma_plante", self.plantes[i]])
+                self.elmt_afficher.append([img_basilic, SDL_Rect(i*50, 300)])
 
-            texte = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(self.plantes[i].getName()), couleurNoire); #création du texte
-            self.elmt_afficher.append([texte, None, self.windowSurface, SDL_Rect(i*50, 400)])
+            self.boutons.append([(i*60, 275, i*60+10, 285), self, "ma_plante", self.plantes[i]])
+            self.printT(60, i*70, 400, "angelina", self.plantes[i].getName())
 
-        SDL_FillRect(self.windowSurface, SDL_Rect(80, 75, 90, 90), 0x200002)
-
-        texte = sdlttf.TTF_RenderUTF8_Blended(police, b"nouvelle plante", couleurNoire); #création du texte
-        self.elmt_afficher.append([texte, None, self.windowSurface, SDL_Rect(100, 100)])
-        self.boutons.append([(80, 75, 10, 10), self, "nouvelle_plante"])
+        self.printT(60, 100, 100, "angelina", "nouvelle plante")
+        self.boutons.append([(80, 75, 100, 100), self, "nouvelle_plante"])
 
 
     #fenetre d'acquisition. reponse sous la forme [reponse1, reponse2...]. action sous la forme [[]]
@@ -288,44 +242,26 @@ class Gui() :
         self.elmt_afficher = []
         self.historique.append([self, "acquisition", [question, reponse, action]])
 
-        nbr_ligne = len(question)//100 + 1
+        """nbr_ligne = len(question)//100 + 1
         for num_ligne in range(nbr_ligne) :
             texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(question[100*num_ligne:100*(num_ligne+1)]), SDL_Color(0, 0, 0))
             texture = SDL_CreateTextureFromSurface(self.renderer, texte)
             self.elmt_afficher.append([self.renderer, texture, None, self.creation_rectangle("sdl_rect", 0, 10*num_ligne, 1*len(question[100*num_ligne:100*(num_ligne+1)]), 10)])
             SDL_FreeSurface(texte)
+        """
+        self.printT(20, 0, 0, "angelina", question)
 
         for i in range(len(reponse)) :
-            sdl_rect = self.creation_rectangle("sdl_rect", 17+i*12, 10*nbr_ligne+10, 10, 10)
-            SDL_SetRenderDrawColor(self.renderer, *self.creation_rectangle("bouton", 17+i*12, 10*nbr_ligne+10, 10, 10))   #colorie un retangle (pour materialiser le bouton)
-            SDL_RenderFillRect(self.renderer, sdl_rect)
-            texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(str(reponse[i])), SDL_Color(0, 0, 0))
-            texture = SDL_CreateTextureFromSurface(self.renderer, texte)
-            self.elmt_afficher.append([self.renderer, texture, None, sdl_rect])
+            self.printT(20, 17*i+12, 250, "angelina", reponse[i])
             if len(action[i]) == 3 :
-                self.boutons.append([self.creation_rectangle("bouton", 17+i*12, 10*nbr_ligne+10, 10, 10), action[i].pop(0), action[i].pop(0), action[i].pop(0)])
+                self.boutons.append([(17+i*12, 400, 27+i*12, 420), action[i].pop(0), action[i].pop(0), action[i].pop(0)])
             else :
-                self.boutons.append([self.creation_rectangle("bouton", 17+i*12, 10*nbr_ligne+10, 10, 10), action[i].pop(0), action[i].pop(0)])
-            SDL_FreeSurface(texte)
+                self.boutons.append([(17+i*12, 400, 27+i*12, 420), action[i].pop(0), action[i].pop(0)])
 
 
     #affiche une pop-up (géré directement par gnome/kde/..., pas par la sdl)
     def pop_up(self, title, text) :
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, str.encode(title), str.encode(text), self.window)
-
-    #affiche un diagnostique (a modifier quand les actions sont pretes)
-    def diagnostique(self, text) :
-        couleurNoire = SDL_Color(0, 0, 0)
-        texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(text), couleurNoire)    #creation eds textes
-        texte2 = sdlttf.TTF_RenderUTF8_Blended(self.police, b"ok", couleurNoire)
-        texture = SDL_CreateTextureFromSurface(self.renderer, texte)            #creation des textures
-        texture2 = SDL_CreateTextureFromSurface(self.renderer, texte2)
-
-        self.elmt_afficher([self.renderer, texture, None, self.creation_rectangle("sdl_rect", 5, 5, 60, 90)])
-        #créer le bouton qui renvoie à l'ecran d'accueil
-        self.elmt_afficher.append([self.renderer, texture2, None, self.creation_rectangle("sdl_rect", 67, 76, 8, 12)])
-        self.boutons.append([self.creation_rectangle("bouton", 67, 76, 8, 12), self, "accueil"])    #creation du bouton
-
 
 
 #exemple d'utilisation :
