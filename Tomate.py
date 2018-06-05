@@ -1,6 +1,6 @@
-
 import datetime
 import Plante
+
 
 class Tomate(Plante.Plante):
 
@@ -9,17 +9,21 @@ class Tomate(Plante.Plante):
 	def __init__(self, name):
 		Plante.Plante.__init__(self,name)
 		self.type = "tomate"
+		self.state = 3
+		self.etapes = [
+			"A2",
+			"A1",
+			"A3",
+			"A4",
+			"A5",
+			"A6",
+			"A7",
+			"A8",
+			"A9",
+			"A10",
+			"A11"
+		]
 
-	def q(self, state):
-
-		self.state = state
-
-		print("Voulez-vous quitter ? o/n")
-		q = input()
-		while q != 'o' and q != 'n':
-			q = input("Nous n'avons pas compris.")
-
-		return (q == 'o')
 
 	def Recolte(self):
 
@@ -29,36 +33,6 @@ class Tomate(Plante.Plante):
 
 			return(self)
 
-
-	def Arrosage(self):
-
-		if (self.Arrosage_last - datetime.datetime.now()).days > 3:
-			print("Il est temps d'arroser, pour cela remplissez lentement le pot d'eau. Il faut qu'après\
-			l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent.")
-
-		if self.Engrais:
-			print("Vous devraient aussi mettre de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
-
-		self.Arrosage_last = datetime.datetime.now()
-
-	def A1(self):
-		# Acquisition pot/terre
-		print("Bonjour, vous avez decidez de planter une plante avec notre logiciel, bravo ! \
-			Nous avons tout d'abord besoin d'une information, voulez-vous planter en pot ou en terre ? (p/t)")
-
-		rep = input()
-
-		while rep != 'p' and rep != 't':
-			rep = input("Nous n'avons pas compris \n")
-
-		print("Très bien.")
-
-		self.Pot = (rep == 'p')
-
-
-		if self.q(1):
-			return(self)
-		self.A2()
 
 	def A2(self):
 		# Procédure germination
@@ -76,6 +50,7 @@ class Tomate(Plante.Plante):
 		if self.q(2):
 			return(self)
 		self.A3()
+
 
 	def A3(self):
 		# Acquisition germination
@@ -95,9 +70,6 @@ class Tomate(Plante.Plante):
 					return(self)
 				self.A3()
 			else :
-
-				if self.q(3):
-					return(self)
 				self.A4()
 
 		else:
@@ -111,40 +83,29 @@ class Tomate(Plante.Plante):
 			if rep == 'n':
 				print("Revenez vers nous une fois qu'elle aura germée.")
 			else :
-
-				if self.q(3):
-					return(self)
 				self.A5()
 
 
-	def A4(self):
+	def A4(self, interface):
 		# Procédure pour mettre la graine en terre (cas Pot = 1)
-
-		print("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
+		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
 			préalablement désinfectée et la déposer dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
-			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser.")
+			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser.",["ok"], [[self, "A5", [interface, None]]])
 
-		if self.q(4):
-			return(self)
-		self.A5()
 
-	def A5(self):
+	def A5(self, interface, reponse):
 		# Acquisition lumière
 
-		print("Votre plante est desormais en terre, il lui faudra maintenant de la lumière pour vivre.\
-			Vous pouvez utiliser une lampe agricole ou bien la lumière naturelle, cependant \
-			il vous faudra beaucoup de lumière, la lumière naturelle sera donc appropriée dans une région\
-			ensoleillée et qui n'est pas à l'ombre. Une lampe agricole peut être utilisée seule ou en\
-			complément et devra être d'au moins 125-250 watts (ce qui a un coût en élécricité.)\n\
-			Que voulez-vous faire ? (lampe/exte)  ")
+		if reponse == None :
+			interface.acquisition("Votre plante est desormais en terre, il lui faudra maintenant de la lumière pour vivre.\
+				Vous pouvez utiliser une lampe agricole ou bien la lumière naturelle, cependant \
+				il vous faudra beaucoup de lumière, la lumière naturelle sera donc appropriée dans une région\
+				ensoleillée et qui n'est pas à l'ombre. Une lampe agricole peut être utilisée seule ou en\
+				complément et devra être d'au moins 125-250 watts (ce qui a un coût en élécricité.)\n\
+				Que voulez-vous faire ?",["lampe", "exterieur"], [[self, "A5", [interface, "lampe"]], [self, "A5", [interface, "exterieur"]]])
 
 
-		rep = input()
-
-		while rep != "lampe" and rep != "exte":
-			rep = input("Nous n'avons pas compris\n")
-
-		if rep == "lampe":
+		if reponse == "lampe":
 			self.Lampe = True
 			print("C'est un très bon choix. La lampe est-elle une HPS ? (o/n)")
 
@@ -166,11 +127,8 @@ class Tomate(Plante.Plante):
 				ainsi qu'au risque climatique et naturels (grêle, pluit, vente, ...) que notre application\
 				ne pourra pas prévoir.")
 
-
-
-		if self.q(5):
-			return(self)
 		self.A6()
+
 
 	def A6(self):
 		# Acquisitino engrais
@@ -197,8 +155,6 @@ class Tomate(Plante.Plante):
 
 			self.Engrais_freq = int(rep)
 
-		if self.q(6):
-			return(self)
 		self.A7()
 
 
@@ -221,9 +177,8 @@ class Tomate(Plante.Plante):
 				l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
 				la taille de vos plantes afin de vous indiquer les autres démarches à suivre.")
 
-		if self.q(7):
-			return(self)
 		self.A8()
+
 
 	def A8(self):
 
@@ -232,9 +187,8 @@ class Tomate(Plante.Plante):
 		rep = input()
 		self.Taille = int(rep)
 
-		if self.q(8):
-			return(self)
 		self.A9()
+
 
 	def A9(self):
 
@@ -268,12 +222,11 @@ class Tomate(Plante.Plante):
 			elles contiennent beaucoup d'energie que la plante peut quand même utiliser, s'il elle n'en a plue besoin\
 			elle s'en débarassera d'elle même.")
 
-			if self.q(9):
-				return(self)
 			self.A10()
 
 		else :
 			self.A8()
+
 
 	def A10(self):
 		# Acquisition floraison
@@ -290,14 +243,14 @@ class Tomate(Plante.Plante):
 		else :
 			print("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures.")
 
-		if self.q(10):
-			return(self)
 		self.A11()
+
 
 	def A11(self):
 
 		print("C'est fini")
 		return self
+
 
 	def launch(self):
 
