@@ -34,7 +34,7 @@ class Gui() :
         #creation de la fenetre
         self.window = SDL_CreateWindow(b"mon petit jardinier",
                                   SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                                  592, 460, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE)
+                                  592, 460, SDL_WINDOW_SHOWN)
         if self.window == None :
             print("erreur lors de la creation de la fenetre.")
 
@@ -262,10 +262,6 @@ class Gui() :
 
         police =  sdlttf.TTF_OpenFont(str.encode(self.police), 20)
         couleurNoire = SDL_Color(0, 0, 0)
-        #texte = sdlttf.TTF_RenderUTF8_Blended(police, b"Mon petit jardinier", couleurNoire); #création du texte
-
-        #a = [texte, None, self.windowSurface, SDL_Rect(10,10)]
-        #self.elmt_afficher.append(a)
 
         self.printT(60, 10, 10, "angelina", "Mon petit jardinier")
 
@@ -281,12 +277,9 @@ class Gui() :
 
         SDL_FillRect(self.windowSurface, SDL_Rect(80, 75, 90, 90), 0x200002)
 
-        #SDL_SetRenderDrawColor(self.renderer, 200, 200, 200, 255)   #colorie un retangle (pour materialiser le bouton)
-        #SDL_RenderFillRect(self.renderer, self.creation_rectangle("sdl_rect", 80, 75, 10, 10))
-        #texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode("nouvelle plante"), SDL_Color(0, 0, 0))  #on met du texte sur le bouton
         texte = sdlttf.TTF_RenderUTF8_Blended(police, b"nouvelle plante", couleurNoire); #création du texte
         self.elmt_afficher.append([texte, None, self.windowSurface, SDL_Rect(100, 100)])
-        self.boutons.append([self.creation_rectangle("bouton", 80, 75, 10, 10), self, "nouvelle_plante"])
+        self.boutons.append([(80, 75, 10, 10), self, "nouvelle_plante"])
 
 
     #fenetre d'acquisition. reponse sous la forme [reponse1, reponse2...]. action sous la forme [[]]
