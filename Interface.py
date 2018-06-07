@@ -42,6 +42,7 @@ class Gui() :
 
 	def printT(self, size, x, y, text, font = "SanFranciscoRegular"):
 
+		pas = size
 		L = []
 		k = 0
 
@@ -62,11 +63,13 @@ class Gui() :
 
 		police =  sdlttf.TTF_OpenFont(str.encode("Fonts/"+font+".ttf"), size)
 
+		P = 0
 
 		for elem in L:
 			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(0, 0, 0))
-			a = [Text, SDL_Rect(x,y)]
+			a = [Text, SDL_Rect(x,y + P)]
 			self.elmt_afficher.append(a)
+			P += pas
 
 		sdlttf.TTF_CloseFont(police)
 
@@ -235,11 +238,11 @@ class Gui() :
 			else :
 				self.elmt_afficher.append([img_basilic, SDL_Rect(i*pas + deb, H)])
 
-			self.boutons.append([(i*60, 100, i*60+10, 285), self, "ma_plante", self.plantes[i]])
+			self.boutons.append([(i*pas + deb , H, i*pas + deb +100 , H +130), self, "ma_plante", self.plantes[i]])
 			#self.printT(60, i*70, 400, self.plantes[i].getName())
 
-		self.printT(60, 100, 100, "nouvelle plante")
-		self.boutons.append([(80, 75, 100, 100), self, "nouvelle_plante"])
+		self.printT(30, 400, H, "nouvelle \n plante")
+		self.boutons.append([(400, H, 510, H + 100), self, "nouvelle_plante"])
 
 
 	#fenetre d'acquisition. reponse sous la forme [reponse1, reponse2...]. action sous la forme [[]]
