@@ -163,20 +163,24 @@ class Gui() :
 
 	#fenetre d'ajout de plante.
 	def nouvelle_plante(self) :
+
+		deb = 120
+		pas = 240
+		H = 250
+
 		self.boutons = []
 		self.elmt_afficher = []
 		self.historique.append([self, "nouvelle_plante"])
 
-		self.printT(60, 10, 10, "mon petit jardinier")
+		self.printT(50, 90, 15, "Mon petit jardinier")
 
 		for i in range(len(self.type_de_plantes)) :
 			img = SDL_LoadBMP(str.encode("pictures/" + self.type_de_plantes[i] + ".bmp"))
-			self.elmt_afficher.append([img, SDL_Rect(i*50, 300)])
+			self.elmt_afficher.append([img, SDL_Rect(i*pas + deb, H)])
 			#création du bouton
-			self.boutons.append([(i*50, 300, i*50+25, 325), self, "creation_plante", self.type_de_plantes[i]])
+			self.boutons.append([(i*pas + deb , H, i*pas + deb +100 , H +130), self, "creation_plante", self.type_de_plantes[i]])
 
-
-	#fonction ajoutant une plante à self.plante
+   	#fonction ajoutant une plante à self.plante
 	def creation_plante(self, type_de_plantes) :
 		#ask name
 		#name = input()
