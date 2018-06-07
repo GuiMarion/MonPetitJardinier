@@ -73,6 +73,56 @@ class Gui() :
 
 		sdlttf.TTF_CloseFont(police)
 
+	def printTexte(self, size, text, font = "SanFranciscoRegular"):
+
+		pas = size
+		L = []
+		k = 0
+		MOD = 45 # ?
+
+		Deb = 100
+		Deby = 120
+
+		M = ""
+		for i in range(len(text)):
+			M += text[i]
+			if i % MOD == 0 and i != 0:
+				M += '\n'
+
+		text = M
+		while k < len(text):
+			if text[k] == '\n':
+				L.append(text[:k])
+				text = text[(k+1):]
+				k = 0
+				if L[-1][0] == " ":
+					L[-1] = L[-1][1:]
+
+			else :
+				k += 1
+
+		L.append(text)
+
+		for i in range(len(L)):
+			if L[i] == '':
+				del L[i]
+
+		print(L)
+		if L[-1][0] == " ":
+			L[-1] = L[-1][1:]
+
+		police =  sdlttf.TTF_OpenFont(str.encode("Fonts/"+font+".ttf"), size)
+
+		P = 0
+
+		for elem in L:
+			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(0, 0, 0))
+			a = [Text, SDL_Rect(Deb,Deby + P)]
+			self.elmt_afficher.append(a)
+			P += pas
+
+		sdlttf.TTF_CloseFont(police)
+
 
 	#nettoie l'ecran entre deux appel à une fenetre.
 	def clean(self) :
@@ -180,7 +230,7 @@ class Gui() :
 			#création du bouton
 			self.boutons.append([(i*pas + deb , H, i*pas + deb +100 , H +130), self, "creation_plante", self.type_de_plantes[i]])
 
-   	#fonction ajoutant une plante à self.plante
+	#fonction ajoutant une plante à self.plante
 	def creation_plante(self, type_de_plantes) :
 		#ask name
 		#name = input()
@@ -250,10 +300,15 @@ class Gui() :
 
 
 	#fenetre d'acquisition. reponse sous la forme [reponse1, reponse2...]. action sous la forme [[]]
-	def acquisition(self, question, reponse, action) :
+	def acquisition(self, question, reponses, action) :
+
+		Deb = 120
+		pas = 240
+		H = 250
+
 		self.boutons = []
 		self.elmt_afficher = []
-		self.historique.append([self, "acquisition", [question, reponse, action]])
+		self.historique.append([self, "acquisition", [question, reponses, action]])
 
 		"""nbr_ligne = len(question)//100 + 1
 		for num_ligne in range(nbr_ligne) :
@@ -262,14 +317,15 @@ class Gui() :
 			self.elmt_afficher.append([self.renderer, texture, None, self.creation_rectangle("sdl_rect", 0, 10*num_ligne, 1*len(question[100*num_ligne:100*(num_ligne+1)]), 10)])
 			SDL_FreeSurface(texte)
 		"""
-		self.printT(20, 0, 0, question)
+		self.printTexte(20,question)
 
-		for i in range(len(reponse)) :
-			self.printT(20, 17*i+12, 250, reponse[i])
+		for i in range(len(reponses)) :
+			self.printT(20, i*pas + Deb, H, reponses[i])
+
 			if len(action[i]) == 3 :
-				self.boutons.append([(17+i*12, 400, 27+i*12, 420), action[i].pop(0), action[i].pop(0), action[i].pop(0)])
+				self.boutons.append([(i*pas + Deb, H, i*pas + Deb + 100, H +100), action[i].pop(0), action[i].pop(0), action[i].pop(0)])
 			else :
-				self.boutons.append([(17+i*12, 400, 27+i*12, 420), action[i].pop(0), action[i].pop(0)])
+				self.boutons.append([(i*pas + Deb, H, i*pas + Deb +100, H+100), action[i].pop(0), action[i].pop(0)])
 
 
 	#affiche une pop-up (géré directement par gnome/kde/..., pas par la sdl)

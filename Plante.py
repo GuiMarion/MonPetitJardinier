@@ -46,7 +46,7 @@ class Plante :
 		print("a1")
 		if (reponse == None) :
 			# Acquisition pot/terre
-			interface.acquisition("Bonjour, vous avez decidez de planter une plante avec notre logiciel, bravo ! \
+			interface.acquisition("Bonjour, vous avez decidé de planter une plante avec notre logiciel, bravo ! \
 				Nous avons tout d'abord besoin d'une information, voulez-vous planter en pot ou en terre ?",["p","t"], [[self, "A1", [interface, "p"]], [self, "A1", [interface, "t"]]])
 
 		else :
