@@ -78,8 +78,16 @@ class Tomate(Plante.Plante):
 					de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
 					La photopériode doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez\
 					vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
-					de lumière possible est une bonne pratique.\n\
-					Une fois fait, bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
+					de lumière possible est une bonne pratique.", ["ok"], [[interface, "accueil"]])
+
+
+	def A8(self, interface):
+		# Affichage croissance
+		self.state = 8
+
+		if self.Lampe:
+
+				interface.acquisition("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
 					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
 					la taille de vos plantes afin de vous indiquer les prochaines démarches."
 					,["ok"], [[interface, "accueil"]])
@@ -89,6 +97,7 @@ class Tomate(Plante.Plante):
 					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
 					la taille de vos plantes afin de vous indiquer les autres démarches à suivre."
 					, ["ok"], [[interface, "accueil"]])
+
 
 
 
