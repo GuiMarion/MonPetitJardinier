@@ -133,11 +133,10 @@ class Gui() :
 
 	def bouton_retour_arriere(self) :
 		if(len(self.historique) >= 2) :
-			#load the pictures of the plants.
-			img = IMG_LoadTexture(self.renderer, str.encode("pictures/retour.jpg"))
-			SDL_RenderCopy(self.renderer, img, None, self.creation_rectangle("sdl_rect", 0, 0, 5, 5))
-			SDL_DestroyTexture(img)
-			self.boutons.append([self.creation_rectangle("bouton", 0, 0, 5, 5), self, "retour_arriere"])
+			if [(0, 0, 25, 24), self, "retour_arriere"] not in self.boutons :
+				img = SDL_LoadBMP(str.encode("pictures/retour.bmp"))
+				self.elmt_afficher.append([img, SDL_Rect(0, 0)])
+				self.boutons.append([(0, 0, 25, 24), self, "retour_arriere"])
 
 
 	def retour_arriere(self) :
@@ -145,18 +144,18 @@ class Gui() :
 			fenetre = self.historique[-2]
 			f = getattr(fenetre[0], fenetre[1])
 			del self.historique[-1] #on supprime de l'historique la fenetre que l'on quitte.
+
 			if len(fenetre) < 3 :
 				f()
 			else :
 				if(len(fenetre) >= 3) :
 					if(type(fenetre[2]) is list) :
-						print("islist")
-						print(fenetre[2])
 						f(*fenetre[2])
 					else :
 						f(fenetre[2])
 		except :
-			print("historique indisponible")
+			#print("historique indisponible")
+			pass
 
 
 	#verifie les clics
@@ -171,18 +170,13 @@ class Gui() :
 			if event.type == SDL_MOUSEBUTTONUP:
 				for button in self.boutons :
 					if (event.button.x >= button[0][0] and event.button.x <= button[0][2] and event.button.y >= button[0][1] and event.button.y <= button[0][3]) :
-						print("button[1]")
-						if (len(button) <= 3) :
-							self.historique.append([button[1], button[2]])
 						f = getattr(button[1], button[2])
 
 						if(len(button) > 3) :
 							if(type(button[3]) is list) :
 								f(*button[3])
-								#self.historique.append([button[1], button[2], button[3]])
 							else :
 								f(button[3])
-								self.historique.append([button[1], button[2], button[3]])
 						else :
 							f()
 
@@ -192,7 +186,7 @@ class Gui() :
 	def affichage(self) :
 		#nettoyage de la fenetre actuelle.
 		self.clean()
-		#self.bouton_retour_arriere()
+		self.bouton_retour_arriere()
 
 		#affichage de la fenetre courante.
 		for a in self.elmt_afficher :
@@ -201,7 +195,7 @@ class Gui() :
 		#pour permettre de visualiser les boutons :
 		for button in self.boutons :
 			SDL_FillRect(self.windowSurface, SDL_Rect(button[0][0], button[0][1], (button[0][2] - button[0][0]), (button[0][3] -button[0][1])), 0x200002)
-			print(button[0])
+			#print(button[0])
 
 		#verification des events.
 		self.event()
@@ -220,7 +214,8 @@ class Gui() :
 
 		self.boutons = []
 		self.elmt_afficher = []
-		self.historique.append([self, "nouvelle_plante"])
+		if self.historique[-1] != [self, "nouvelle_plante"] :
+			self.historique.append([self, "nouvelle_plante"])
 
 		self.printT(50, 90, 15, "Mon petit jardinier")
 
@@ -308,15 +303,9 @@ class Gui() :
 
 		self.boutons = []
 		self.elmt_afficher = []
-		self.historique.append([self, "acquisition", [question, reponses, action]])
+		if self.historique[-1] != [self, "acquisition", [question, reponses, action]] :
+			self.historique.append([self, "acquisition", [question, reponses, action]])
 
-		"""nbr_ligne = len(question)//100 + 1
-		for num_ligne in range(nbr_ligne) :
-			texte = sdlttf.TTF_RenderUTF8_Blended(self.police, str.encode(question[100*num_ligne:100*(num_ligne+1)]), SDL_Color(0, 0, 0))
-			texture = SDL_CreateTextureFromSurface(self.renderer, texte)
-			self.elmt_afficher.append([self.renderer, texture, None, self.creation_rectangle("sdl_rect", 0, 10*num_ligne, 1*len(question[100*num_ligne:100*(num_ligne+1)]), 10)])
-			SDL_FreeSurface(texte)
-		"""
 		self.printTexte(20,question)
 
 		H += (len(question)**2)//2000
