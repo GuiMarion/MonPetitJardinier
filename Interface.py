@@ -58,8 +58,11 @@ class Gui() :
 				k += 1
 
 		L.append(text)
-		if L[-1][0] == " ":
-			L[-1] = L[-1][1:]
+		try :
+			if L[-1][0] == " ":
+				L[-1] = L[-1][1:]
+		except :
+			pass
 
 		police =  sdlttf.TTF_OpenFont(str.encode("Fonts/"+font+".ttf"), size)
 
@@ -228,8 +231,12 @@ class Gui() :
 	#fonction ajoutant une plante à self.plante
 	def creation_plante(self, type_de_plantes) :
 		#ask name
-		#name = input()
-		name = "toto"
+		self.elmt_afficher = []
+		self.boutons = []
+
+		self.printT(20, 50, 100, "quelle nom souhaitez vous donnez à votre plante ?")
+		name = self.input(200, 200)
+		
 		p = eval(type_de_plantes)(name)
 		self.plantes.append(p)
 		self.plantes[-1].A1(self, None)
@@ -334,6 +341,39 @@ class Gui() :
 	#affiche une pop-up (géré directement par gnome/kde/..., pas par la sdl)
 	def pop_up(self, title, text) :
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, str.encode(title), str.encode(text), self.window)
+
+
+	def input(self, x, y) :
+		text = ""
+		finie = False
+		event = SDL_Event()
+
+		while(not finie) :
+			while ( SDL_PollEvent( event ) ) :
+				if ( event.type == SDL_KEYDOWN ) :
+					if event.key.keysym.sym == SDLK_ESCAPE :
+						finie = True
+					elif event.key.keysym.sym == SDLK_KP_ENTER :
+						finie = True
+					elif event.key.keysym.sym ==  SDLK_RETURN:
+						finie = True
+					elif event.key.keysym.sym == SDLK_BACKSPACE :
+						temp = list(text)
+						del temp[-1]
+						text = "".join(temp)
+
+					else :
+						try :
+							text = text + chr(event.key.keysym.sym)
+						except :
+							pass
+
+			self.printT(25, x, y, text+"|")
+			self.affichage()
+			del self.elmt_afficher[-1]
+			SDL_Delay(15)
+
+		return text
 
 
 #exemple d'utilisation :
