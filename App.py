@@ -61,7 +61,7 @@ class Gui() :
 		while self.run :
 			for plante in self.plantes :
 				plante.Arrosage(self)
-				plante.Recolte(self)
+				#plante.Recolte(self)
 			self.affichage()
 
 
@@ -267,10 +267,10 @@ class Gui() :
 
 	def bouton_retour_arriere(self) :
 		if(len(self.historique) >= 2) :
-			if [(0, 0, 25, 24), self, "retour_arriere"] not in self.boutons :
+			if [(15, 15, 76, 50), self, "retour_arriere"] not in self.boutons :
 				img = SDL_LoadBMP(str.encode("pictures/retour.bmp"))
-				self.elmt_afficher.append([img, SDL_Rect(0, 0)])
-				self.boutons.append([(0, 0, 25, 24), self, "retour_arriere"])
+				self.elmt_afficher.append([img, SDL_Rect(15, 15)])
+				self.boutons.append([(15, 15, 76, 50), self, "retour_arriere"])
 
 
 	def retour_arriere(self) :
