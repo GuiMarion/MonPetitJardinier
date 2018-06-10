@@ -84,6 +84,7 @@ class Plante :
 				, ["Oui", "Non"], [[self, "A4", interface], [self, "A3", [interface, "non"]]])
 
 			if reponse == "non" :
+				self.state == 2
 				interface.acquisition("Revenez vers nous une fois qu'elle aura germée."
 				,["ok"], [[interface, "accueil"]])
 

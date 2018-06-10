@@ -393,9 +393,9 @@ class Gui() :
 
 		self.printT(60, 250, 10, plante.getName())
 
-		past_task = plante.etapes[:plante.state]
-		advised_task =plante.etapes[plante.state]
-		futur_task = plante.etapes[(plante.state+1):]
+		past_task = plante.etapes[:plante.state-1]
+		advised_task =plante.etapes[plante.state-1]
+		futur_task = plante.etapes[(plante.state):]
 
 		for i in range(len(past_task)) :
 			self.printT(20, i*60+10, 120, str(past_task[i]))
