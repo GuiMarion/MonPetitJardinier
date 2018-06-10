@@ -95,14 +95,14 @@ class Tomate(Plante.Plante):
 
 		if self.Lampe:
 
-				interface.acquisition("Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
-					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
+				interface.acquisition("Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser \
+					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement \
 					la taille de vos plantes afin de vous indiquer les prochaines démarches."
 					,["ok"], [[interface, "accueil"]])
 
 		else :
-				interface.acquisition("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
-					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
+				interface.acquisition("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser \
+					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement \
 					la taille de vos plantes afin de vous indiquer les autres démarches à suivre."
 					, ["ok"], [[interface, "accueil"]])
 
@@ -113,6 +113,8 @@ class Tomate(Plante.Plante):
 		#Affichage rempotage/ taille/ floraison
 		if self.state == 8 :
 			self.state = 9
+
+		self.acquisition_taille(interface)
 
 		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
 			interface.acquisition("Il est temps de <def = rempoter est l'acte de changer une plante de pot>rempoter</def> votre plante.\
@@ -125,13 +127,13 @@ class Tomate(Plante.Plante):
 
 			self.Rempoter +=1
 
-		if self.Taille > 30 and self.Lampe:
+		elif self.Taille > 30 and self.Lampe:
 			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour\
 				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la\
 				<def = La photopériode est le rapport entre la durée du jour et la durée de la nuit>photopériode</def> à 12h de lumière par jour."
 				, ["d'accord"], [[interface, "accueil"]])
 
-		if self.Taille > 35:
+		elif self.Taille > 35:
 			interface.acquisition("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer\
 			la taille de votre plante. Il vous faut couper les petits débuts de fleurs qui sont trop bas pour prendre\
 			la lumière (les gourmandes) et les parties qui ne prendrons pas la lumière. Ne coupez pas les grosses feuilles,\
@@ -139,10 +141,16 @@ class Tomate(Plante.Plante):
 			elle s'en débarassera d'elle même."
 				, ["d'accord"], [[self, "A10", [interface, None]]])
 
-			self.A10()
+			self.A10(interface)
 
+		elif self.Taille < 15 and self.Pot:
+			interface.acquisition("quand votre plante fera plus de 15cm il faudra la rempoter. revenez nous voir à ce moment."
+				, ["ok"], [[interface, "accueil"]])
+		elif self.Taille < 30 and self.Lampe:
+			interface.acquisition("quand votre plante fera plus de 30cm il faudra passer à la periode de floraison. revenez nous voir à ce moment."
+				, ["ok"], [[interface, "accueil"]])
 		else :
-			interface.acquisition("Vous n'avez rien a faire pour le moment, il faut attendre que votre plante pousse."
+			interface.acquisition("quand votre plante fera plus de 35cm il faudra tailler votre plante. revenez nous voir à ce moment."
 				, ["ok"], [[interface, "accueil"]])
 
 
@@ -155,11 +163,11 @@ class Tomate(Plante.Plante):
 			interface.acquisition("Vous devriez être passé en floraison et avoir effectué les premières tailles. Est-ce bien le cas ?"
 				, ["oui", "non"], [[self, "A10", [interface, "oui"]], [self, "A10", [interface, "non"]]])
 
-		if reponse == 'oui' :
+		elif reponse == 'oui' :
 			self.Floraison = True
 			self.Floraison_début = datetime.date.today()
 			interface.acquisition("Très bien nous pouvons continuer"
 				, ["ok"], [[self, "A11", interface]])
-		else :
+		elif reponse == "oui" :
 			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
 				, ["ok"], [[interface, "ma_plante", self]])

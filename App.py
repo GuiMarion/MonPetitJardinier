@@ -178,8 +178,11 @@ class Gui() :
 		for i in range(len(text)):
 			M += text[i]
 			if i % MOD == 0 and i != 0:
-				if text[i] != ' ' and text[i+1] != ' ':
-					M += '-'
+				try :
+					if text[i] != ' ' and text[i+1] != ' ':
+						M += '-'
+				except :
+					pass
 				M += '\n'
 
 
