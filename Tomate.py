@@ -4,8 +4,6 @@ import Plante
 
 class Tomate(Plante.Plante):
 
-	# TODO afficher arrosage et ajustement taille lampe
-
 	def __init__(self, name):
 		Plante.Plante.__init__(self,name)
 		self.type = "tomate"
@@ -42,15 +40,16 @@ class Tomate(Plante.Plante):
 			interface.acquisition("Votre plante est desormais en terre, il lui faudra maintenant de la lumière pour vivre.\
 				Vous pouvez utiliser une lampe agricole ou bien la lumière naturelle, cependant \
 				il vous faudra beaucoup de lumière, la lumière naturelle sera donc appropriée dans une région\
-				ensoleillée et qui n'est pas à l'ombre. Une lampe agricole peut être utilisée seule ou en\
-				complément et devra être d'au moins 125-250 watts (ce qui a un coût en élécricité.)\n\
+				ensoleillée à un endroit qui n'est pas à l'ombre. Une lampe agricole peut être utilisée seule ou en\
+				complément et devra être d'au moins 125-250 watts (ce qui a un coût non négligeable en élécricité.)\n\
 				Que voulez-vous faire ?",["lampe", "lumiere naturelle"], [[self, "A5", [interface, "lampe"]], [self, "A5", [interface, "lumiere naturelle"]]])
 
 
 		elif reponse == "lampe":
 			self.Lampe = True
 			interface.acquisition("C'est un très bon choix. La lampe est-elle une \
-			<def = Les lampes HPS émettent une lumière orange et leur spectre de couleurs est mieux adapté pour la floraison ou la fructification.>HPS</def> ? "
+			<def = Lampe à décharge qui est très puissante mais consomme beacoup d'éléctricité et chauffe énorméménent. Si vous optez pour cette \
+			solution il faudrait être vigilant avec la temperature.>HPS</def> ? "
 			,["Oui", "Non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
 
 
@@ -58,7 +57,7 @@ class Tomate(Plante.Plante):
 			self.Lampe = False
 			interface.acquisition("C'est un très bon choix. Nous attirons votre attention sur le fait qu'il vous faut\
 				être attentif à l'ensoleillement de votre plante (au moins 6h de plein soleil par jours)\
-				ainsi qu'au risque climatique et naturels (grêle, pluit, vent, ...) que notre application\
+				ainsi qu'aux risques climatiques et naturels (grêle, pluit, vent, ...) que notre application\
 				ne pourra pas prévoir.",["ok"], [[self, "A6", [interface, None]]])
 
 		else :
@@ -121,11 +120,11 @@ class Tomate(Plante.Plante):
 		self.acquisition_taille(interface)
 
 		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
-			interface.acquisition("Il est temps de <def = rempoter est l'acte de changer une plante de pot>rempoter</def> votre plante.\
+			interface.acquisition("Il est temps de <def = Déplacer la plante dans un pot plus grand>rempoter</def> votre plante.\
 			 	Pour cela attendez le prochain arrosage et avant d'arroser,\
-				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
+				sortez votre plante de son pot en tapant sur l'arrière. Vous devriez pouvoir sortir la motte de\
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
-				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
+				de la taille de la motte de terre que vous avez sortie, et glissez la à l'interieur. Soupoudrez le tout\
 				de terreau, tassez, puis arrosez."
 				, ["ok"], [[interface, "accueil"]])
 
@@ -134,8 +133,8 @@ class Tomate(Plante.Plante):
 		elif self.Taille > 30 and self.Lampe:
 			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour\
 				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la\
-				<def = La photopériode est le rapport entre la durée du jour et la durée de la nuit>photopériode</def> à 12h de lumière par jour."
-				, ["d'accord"], [[interface, "accueil"]])
+				<def = La photopériode est le rapport entre la durée d'ensoleimment sur une journée>photopériode</def> à 12h de lumière par jour."
+				, ["ok"], [[interface, "accueil"]])
 
 		elif self.Taille > 35:
 			interface.acquisition("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer\
@@ -143,7 +142,7 @@ class Tomate(Plante.Plante):
 			la lumière (les gourmandes) et les parties qui ne prendrons pas la lumière. Ne coupez pas les grosses feuilles,\
 			elles contiennent beaucoup d'energie que la plante peut quand même utiliser, s'il elle n'en a plue besoin\
 			elle s'en débarassera d'elle même."
-				, ["d'accord"], [[self, "A10", [interface, None]]])
+				, ["ok"], [[self, "A10", [interface, None]]])
 
 			self.A10(interface)
 
@@ -165,7 +164,7 @@ class Tomate(Plante.Plante):
 
 		if reponse == None :
 			interface.acquisition("Vous devriez être passé en floraison et avoir effectué les premières tailles. Est-ce bien le cas ?"
-				, ["oui", "non"], [[self, "A10", [interface, "oui"]], [self, "A10", [interface, "non"]]])
+				, ["Oui", "Non"], [[self, "A10", [interface, "oui"]], [self, "A10", [interface, "non"]]])
 
 		elif reponse == 'oui' :
 			self.Floraison = True
