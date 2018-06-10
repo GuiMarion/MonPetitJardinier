@@ -388,7 +388,8 @@ class Gui() :
 		self.elmt_afficher = []
 		self.boutons = []
 		self.definitions = []
-		self.historique.append([self,  "ma_plante", [plante]])
+		if self.historique[-1] != [self,  "ma_plante", [plante]] :
+			self.historique.append([self,  "ma_plante", [plante]])
 
 		self.printT(60, 250, 10, plante.getName())
 
@@ -427,7 +428,9 @@ class Gui() :
 		pas = 120
 		H = 400
 
-		self.historique.append([self, "accueil"])
+		if self.historique != [self, "accueil"] :
+			self.historique.append([self, "accueil"])
+
 		self.boutons = []
 		self.elmt_afficher = []
 		self.definitions = []
