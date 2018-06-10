@@ -503,6 +503,7 @@ class Gui() :
 		text = ""
 		finie = False
 		event = SDL_Event()
+		taille = 0
 
 		while(not finie) :
 			while ( SDL_PollEvent( event ) ) :
@@ -529,6 +530,9 @@ class Gui() :
 			self.printT(25, x, y, text+"|")
 			self.affichage()
 			del self.elmt_afficher[-1]
+			if len(text) == 1 and taille == 0:
+				del self.elmt_afficher[-1]
+				taille = 1
 			SDL_Delay(15)
 
 		return text
