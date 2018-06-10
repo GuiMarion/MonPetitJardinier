@@ -32,7 +32,7 @@ class Plante :
 
 	def Recolte(self, interface):
 
-		if self.Floraison and (self.Floraison_debut - datetime.datetime.now().day) > self.Floraison_length:
+		if self.Floraison and (datetime.datetime.now().day - self.Floraison_debut) > self.Floraison_length:
 			interface.acquisition("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
 				murs. Bravo, notre travail est terminé !"
 				,["ok"], [[self, "A11", interface]])
