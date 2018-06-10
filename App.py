@@ -49,6 +49,8 @@ class Gui() :
 		self.accueil()
 
 		while self.run :
+			for plante in self.plantes :
+				plante.Arrosage(self)
 			self.affichage()
 
 
@@ -278,6 +280,7 @@ class Gui() :
 
 		self.boutons = []
 		self.elmt_afficher = []
+		self.definitions = []
 		if self.historique[-1] != [self, "nouvelle_plante"] :
 			self.historique.append([self, "nouvelle_plante"])
 
@@ -295,6 +298,7 @@ class Gui() :
 		#ask name
 		self.elmt_afficher = []
 		self.boutons = []
+		self.definitions = []
 
 		self.printT(20, 50, 100, "quelle nom souhaitez vous donnez à votre plante ?")
 		name = self.input(200, 200)
@@ -308,6 +312,7 @@ class Gui() :
 	def ma_plante(self, plante) :
 		self.elmt_afficher = []
 		self.boutons = []
+		self.definitions = []
 		self.historique.append([self,  "ma_plante", [plante]])
 
 		self.printT(60, 250, 10, plante.getName())
@@ -347,6 +352,7 @@ class Gui() :
 		self.historique.append([self, "accueil"])
 		self.boutons = []
 		self.elmt_afficher = []
+		self.definitions = []
 		#load the pictures of the plants.
 		img_tomate = SDL_LoadBMP(b"pictures/Tomate.bmp")
 		img_basilic = SDL_LoadBMP(b"pictures/Basilic.bmp")
@@ -375,6 +381,7 @@ class Gui() :
 
 		self.boutons = []
 		self.elmt_afficher = []
+		self.definitions = []
 		if self.historique[-1] != [self, "acquisition", [question, reponses, action]] :
 			self.historique.append([self, "acquisition", [question, reponses, action]])
 

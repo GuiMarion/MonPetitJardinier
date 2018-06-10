@@ -21,24 +21,26 @@ class Plante :
 		self.Floraison = None
 		self.Floraison_début = None
 		self.Rempoter = 0
-		self.Arrosage_last = None
+		self.Arrosage_last = datetime.datetime.now().day
 
 	def getName(self):
 		return self.Name
 
 
 
-	def Arrosage(self):
-
-		if (self.Arrosage_last - datetime.datetime.now()).days > 3:
-			print("Il est temps d'arroser, pour cela remplissez lentement le pot d'eau. Il faut qu'après\
-			l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent.")
-
-		if self.Engrais:
-			print("Vous devraient aussi mettre de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
-
-		self.Arrosage_last = datetime.datetime.now()
-
+	def Arrosage(self, interface):
+		if (self.Arrosage_last - datetime.datetime.now().day) > 1:
+			self.Arrosage_last = datetime.datetime.now().day
+			
+			if not self.Engrais :
+				interface.acquisition("Il est temps d'arroser, votre " + self.type + " " + self.Name + " pour cela remplissez lentement le pot d'eau. \
+				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent."
+					,["ok"], [[interface, "retour_arriere"]])
+			else :
+				interface.acquisition("Il est temps d'arroser, votre " + self.type + " " + self.Name + " pour cela remplissez lentement le pot d'eau. \
+				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent. Vous devraient aussi mettre \
+				 de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau."
+					,["ok"], [[interface, "retour_arriere"]])
 
 
 
