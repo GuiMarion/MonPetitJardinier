@@ -40,8 +40,8 @@ class Tomate(Plante.Plante):
 		elif reponse == "lampe":
 			self.Lampe = True
 			interface.acquisition("C'est un très bon choix. La lampe est-elle une \
-			<def = Lampe à décharge qui est très puissante mais consomme beacoup d'éléctricité et chauffe énorméménent. Si vous optez pour cette \
-			solution il faudrait être vigilant avec la temperature.>HPS</def> ? "
+			<def = Lampe à décharge qui est très puissante mais consomme beaucoup d'éléctricité et chauffe énorméménent. Si vous optez pour cette \
+			solution il faudrait être vigilant avec la temperature.>HPS</def>  ? "
 			,["Oui", "Non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
 
 
@@ -63,6 +63,8 @@ class Tomate(Plante.Plante):
 
 			interface.acquisition("Quelle est la puissance (en watts)",None,None)
 			rep = interface.input(200, 200)
+			while not is_int(rep):
+				rep = interface.input(200, 200)
 			self.Lampe_puissance = int(rep)
 			self.A6(interface, None)
 
@@ -169,3 +171,10 @@ class Tomate(Plante.Plante):
 		elif reponse == "non" :
 			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
 				, ["ok"], [[interface, "ma_plante", self]])
+
+def is_int(i):
+	try:
+		int(i)
+	except ValueError:
+		return False
+	return True
