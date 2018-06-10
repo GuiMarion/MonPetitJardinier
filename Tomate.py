@@ -130,6 +130,7 @@ class Tomate(Plante.Plante):
 				<def = La photopériode est le rapport entre la durée d'ensoleimment sur une journée>photopériode</def> à 12h de lumière par jour."
 				, ["ok"], [[interface, "accueil"]])
 			self.Floraison = True
+			self.Floraison_début = datetime.date.today()
 
 		elif self.Taille > 35:
 			interface.acquisition("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer \
@@ -160,8 +161,6 @@ class Tomate(Plante.Plante):
 				, ["Oui", "Non"], [[self, "A10", [interface, "oui"]], [self, "A10", [interface, "non"]]])
 
 		elif reponse == 'oui' :
-			self.Floraison = True
-			self.Floraison_début = datetime.date.today()
 			interface.acquisition("Très bien, il ne reste plus qu'à attendre, continuez à bien arroser, et nous vous dirons quand\
 				il faudra récolter. N'oubliez pas de prendre soin de votre plante, c'est une période difficile pour elle."
 				, ["ok"], [[interface, "accueil"]])
