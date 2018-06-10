@@ -108,8 +108,9 @@ class Gui() :
 		for i in range(len(text)):
 			M += text[i]
 			if i % MOD == 0 and i != 0:
-				M += '-\n'
-
+				if text[i] != ' ' and text[i+1] != ' ':
+					M += '-'
+				M += '\n'
 		text = M
 		while k < len(text):
 			if text[k] == '\n':
@@ -177,7 +178,10 @@ class Gui() :
 		for i in range(len(text)):
 			M += text[i]
 			if i % MOD == 0 and i != 0:
-				M += '-\n'
+				if text[i] != ' ' and text[i+1] != ' ':
+					M += '-'
+				M += '\n'
+
 
 		text = M
 		while k < len(text):
