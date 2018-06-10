@@ -25,11 +25,19 @@ class Plante :
 		self.Arrosage_last = datetime.datetime.now().day
 		self.Arrosage_freq = 1
 		self.Recolte = False
+		self.Floraison_length = 25
 
 	def getName(self):
 		return self.Name
 
+	def Recolte(self, interface):
 
+		if (self.Floraison and self.Floraison_debut - datetime.datetime.now()) > Floraison_length:
+			print("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
+				murs. Bravo, notre travail est terminé !")
+			self.Recolte = True
+
+			return(self)
 
 	def Arrosage(self, interface):
 

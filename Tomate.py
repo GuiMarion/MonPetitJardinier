@@ -23,15 +23,6 @@ class Tomate(Plante.Plante):
 		]
 
 
-	def Recolte(self):
-
-		if (self.Floraison and self.Floraison_debut - datetime.datetime.now()) > 25:
-			print("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
-				murs. Bravo, notre travail est terminé !")
-			self.Recolte = True
-
-			return(self)
-
 	def A5(self, interface, reponse=None):
 		# Acquisition lumière
 		if self.state == 4 :
