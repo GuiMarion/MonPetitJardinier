@@ -86,6 +86,13 @@ class Gui() :
 		Deb = 100
 		Deby = 120
 
+		i = len(text)-1
+		while i > 0:
+			if text[i] == '\t' or text[i] == '\n':
+				text = text[:i] + text[i+1:]
+			i = i -1
+
+
 		M = ""
 		for i in range(len(text)):
 			M += text[i]
