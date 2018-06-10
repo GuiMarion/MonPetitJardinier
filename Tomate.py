@@ -11,7 +11,7 @@ class Tomate(Plante.Plante):
 		self.etapes = [
 			"A1", # Preparation
 			"A2", # Germination
-			"A3", # Fin Germination 
+			"A3", # Fin Germination
 			"A4", # Mise en terre
 			"A5", # Lampes
 			"A6", # Engrais
@@ -82,6 +82,7 @@ class Tomate(Plante.Plante):
 
 		if self.Lampe:
 
+			self.state = 8
 			interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
 				construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
 				de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\

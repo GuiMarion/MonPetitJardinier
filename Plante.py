@@ -40,7 +40,7 @@ class Plante :
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir."
 					,["ok"], [[interface, "retour_arriere"]])
 
-			elif not self.Engrais_last: 
+			elif not self.Engrais_last:
 				interface.acquisition("Il est temps d'arroser, votre plante pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir. Vous devrez aussi mettre \
 				 de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
@@ -100,8 +100,8 @@ class Plante :
 		# Procédure pour mettre la graine en terre (cas Pot = 1)
 		if self.state == 3 :
 			self.state = 4
-		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
-			préalablement désinfectée et déposer la graine dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
+		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez \
+			préalablement désinfectée et déposer la graine dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur \
 			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser."
 			,["ok"], [[self, "A5", [interface, None]]])
 
