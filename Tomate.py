@@ -61,14 +61,14 @@ class Tomate(Plante.Plante):
 				ainsi qu'au risque climatique et naturels (grêle, pluit, vent, ...) que notre application\
 				ne pourra pas prévoir.",["ok"], [[self, "A6", [interface, None]]])
 
-		else : 
+		else :
 
 			if reponse == "HPS" :
 				self.Lampe_HPS = True
-			
+
 			elif reponse == "non HPS" :
 				self.Lampe_HPS = False
-			
+
 
 			interface.acquisition("Quelle est la puissance (en watts)",None,None)
 			rep = interface.input(200, 200)
@@ -172,6 +172,7 @@ class Tomate(Plante.Plante):
 			self.Floraison_début = datetime.date.today()
 			interface.acquisition("Très bien nous pouvons continuer"
 				, ["ok"], [[self, "A11", interface]])
-		elif reponse == "oui" :
+
+		elif reponse == "non" :
 			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
 				, ["ok"], [[interface, "ma_plante", self]])
