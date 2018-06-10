@@ -272,6 +272,15 @@ class Gui() :
 				self.elmt_afficher.append([img, SDL_Rect(15, 15)])
 				self.boutons.append([(15, 15, 76, 50), self, "retour_arriere"])
 
+	def bouton_home(self) :
+		if [(535, 15, 585, 65), self, "home"] not in self.boutons :
+			img = SDL_LoadBMP(str.encode("pictures/home.bmp"))
+			self.elmt_afficher.append([img, SDL_Rect(535, 15)])
+			self.boutons.append([(535, 15, 585, 65), self, "home"])
+
+	def home(self):
+		self.accueil()
+
 
 	def retour_arriere(self) :
 		try :
@@ -321,6 +330,7 @@ class Gui() :
 		#nettoyage de la fenetre actuelle.
 		self.clean()
 		self.bouton_retour_arriere()
+		self.bouton_home()
 
 		#affichage de la fenetre courante.
 		for a in self.elmt_afficher :
