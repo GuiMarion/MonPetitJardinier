@@ -124,7 +124,7 @@ class Tomate(Plante.Plante):
 			self.Rempoter +=1
 
 
-		elif self.Taille > 30 and self.Lampe:
+		elif self.Taille > 30 and self.Lampe and not self.Floraison:
 			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour \
 				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la \
 				<def = La photopériode est le rapport entre la durée d'ensoleimment sur une journée>photopériode</def> à 12h de lumière par jour."
