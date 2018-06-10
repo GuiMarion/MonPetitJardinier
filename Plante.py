@@ -33,7 +33,7 @@ class Plante :
 
 		if (self.Arrosage_last - datetime.datetime.now().day) > self.Arrosage_freq:
 			self.Arrosage_last = datetime.datetime.now().day
-			
+
 			if not self.Engrais :
 				interface.acquisition("Il est temps d'arroser, votre " + self.type + " " + self.Name + " pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent."
@@ -130,16 +130,13 @@ class Plante :
 			self.A7(interface)
 
 
-def A8(self):
-	# Acquisition taille
-	if self.state == 7 :
-		self.state =  8
+	def acquisition_taille(self, interface, reponse =None, rep = None, reaffiche = False):
+		# Acquisition taille
 
-	print("Quelle est la taille de votre plante ? (en cm)")
-	rep = interface.input(200, 200)
-	self.Taille = int(rep)
+		interface.acquisition("Quelle est la taille de votre plante ? (en cm)", None, None)
+		rep = interface.input(200, 200)
 
-	self.A9()
+		self.Taille = int(rep)
 
 
 
