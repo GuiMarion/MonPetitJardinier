@@ -23,13 +23,6 @@ class Basilic(Plante.Plante):
 		]
 
 
-	def Recolte(self):
-
-		if (self.Floraison_debut - datetime.datetime.now()) > 25:
-			print("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
-				murs. Bravo, notre travail est terminé !")
-
-			return(self)
 
 	def A5(self, interface, reponse=None):
 		# Acquisition lumière

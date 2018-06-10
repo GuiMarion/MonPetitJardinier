@@ -24,7 +24,7 @@ class Plante :
 		self.Rempoter = 0
 		self.Arrosage_last = datetime.datetime.now().day
 		self.Arrosage_freq = 1
-		self.Recolte = False
+		self.Recolte_done = False
 		self.Floraison_length = 25
 
 	def getName(self):
@@ -32,10 +32,11 @@ class Plante :
 
 	def Recolte(self, interface):
 
-		if (self.Floraison and self.Floraison_debut - datetime.datetime.now()) > Floraison_length:
-			print("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
-				murs. Bravo, notre travail est terminé !")
-			self.Recolte = True
+		if self.Floraison and (self.Floraison_debut - datetime.datetime.now().day) > self.Floraison_length:
+			interface.acquisition("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
+				murs. Bravo, notre travail est terminé !"
+				,["ok"], [[self, "A11", interface]])
+			self.Recolte_done = True
 
 			return(self)
 
@@ -160,17 +161,11 @@ class Plante :
 		if self.state == 10 :
 			self.state = 11
 
-		if self.Recolte :
+		if self.Recolte_done :
 			interface.acquisition("Félicitation, au cours de ces quelques mois vous avez certainement beaucoup appris sur le jardinage !"
 				, ["ok"], [[interface, "accueil"]])
-		else:
 
+		else:
 			interface.acquisition("Votre travail est bientôt fini ! Continuer à utiliser notre application pour l'arrosage \
 				de votre plante et vos efforts seront bientôt récompensés. "
 				, ["ok"], [[interface, "accueil"]])
-
-
-
-
-
-
