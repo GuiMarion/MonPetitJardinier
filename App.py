@@ -21,12 +21,14 @@ class Gui() :
 	plantes = []
 	historique = []
 	elmt_afficher = []
+	img_ok = SDL_LoadBMP(b"pictures/OK.bmp")
+
 
 
 	def __init__(self, plantes):
 		#initialisation de la sdl
 		if SDL_Init(SDL_INIT_VIDEO) < 0  :
-			print("probléme d'initialisation : " + str(SDL_GetError()))
+			print("problème d'initialisation : " + str(SDL_GetError()))
 
 		#creation de la fenetre
 		self.window = SDL_CreateWindow(b"mon petit jardinier",
@@ -212,8 +214,8 @@ class Gui() :
 			SDL_BlitSurface(a[0], None, self.windowSurface, a[1])
 
 		#pour permettre de visualiser les boutons :
-		for button in self.boutons :
-			SDL_FillRect(self.windowSurface, SDL_Rect(button[0][0], button[0][1], (button[0][2] - button[0][0]), (button[0][3] -button[0][1])), 0x200002)
+		#for button in self.boutons :
+		#	SDL_FillRect(self.windowSurface, SDL_Rect(button[0][0], button[0][1], (button[0][2] - button[0][0]), (button[0][3] -button[0][1])), 0x999999)
 			#print(button[0])
 
 		#verification des events.
@@ -340,7 +342,11 @@ class Gui() :
 
 		if len(reponses) == 1:
 
-			self.printT(30, pas + Deb - 130, H + 30, reponses[0])
+			if reponses[0] == "ok":
+				self.elmt_afficher.append([self.img_ok, SDL_Rect(pas + Deb - 130, H + 30)])
+
+			else:
+				self.printT(30, pas + Deb - 130, H + 30, reponses[0])
 
 			if len(action[0]) == 3 :
 				self.boutons.append([(pas + Deb - 130, H, pas + Deb - 30, H +100), action[0].pop(0), action[0].pop(0), action[0].pop(0)])
@@ -403,7 +409,7 @@ class Gui() :
 
 	def reset(self):
 
-		self.gui.pop_up("", "Vos plantes sont effacées.")
+		self.pop_up("", "Vos plantes sont effacées.")
 		pickle.dump([], open(".state", 'wb'), pickle.HIGHEST_PROTOCOL)
 
 
@@ -429,15 +435,3 @@ if __name__ == "__main__":
 
 	else:
 		print("Usage: Python3 App.py <Start or Reset>")
-
-
-#exemple d'utilisation :
-
-#plante_existante = [Basilic("toto")]
-#plante_existante.append(Tomate("titi"))
-#a = Gui(plante_existante)
-
-#a.start()
-
-#boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le event())
-#a.start()
