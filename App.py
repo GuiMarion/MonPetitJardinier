@@ -33,7 +33,7 @@ class Gui() :
 	"Croissance",
 	"Rampotage et Croissance",
 	"Floraison",
-	"Fin"]
+	"Récolte"]
 
 
 	def __init__(self, plantes):

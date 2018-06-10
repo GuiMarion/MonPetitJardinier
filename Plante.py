@@ -24,6 +24,7 @@ class Plante :
 		self.Rempoter = 0
 		self.Arrosage_last = datetime.datetime.now().day
 		self.Arrosage_freq = 1
+		self.Recolte = False
 
 	def getName(self):
 		return self.Name
@@ -150,5 +151,18 @@ class Plante :
 	def A11(self, interface):
 		if self.state == 10 :
 			self.state = 11
-		interface.acquisition("Félicitation, au cours de ces quelques mois vous avez certainement beaucoup appris sur le jardinage !"
-			, ["ok"], [[interface, "accueil"]])
+
+		if self.Recolte :
+			interface.acquisition("Félicitation, au cours de ces quelques mois vous avez certainement beaucoup appris sur le jardinage !"
+				, ["ok"], [[interface, "accueil"]])
+		else:
+
+			interface.acquisition("Votre travail est bientôt fini ! Continuer à utiliser notre application pour l'arrosage \
+				de votre plante et vos efforts seront bientôt récompensés. "
+				, ["ok"], [[interface, "accueil"]])
+
+
+
+
+
+
