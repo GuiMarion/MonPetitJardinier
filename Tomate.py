@@ -81,12 +81,13 @@ class Tomate(Plante.Plante):
 			self.state = 7
 
 		if self.Lampe:
+
 			interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
 				construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
 				de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
 				La photopériode doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez\
 				vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
-				de lumière possible est une bonne pratique.", ["ok"], [[interface, "accueil"]])
+				de lumière possible est une bonne pratique.",["ok"], [[self, "A8", [interface]]])
 		else :
 			self.A8(interface)
 

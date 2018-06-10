@@ -15,6 +15,8 @@ This project uses python3 and SDL2, to get started on a ubuntu-like distribution
 
 		apt-get install sdl2_image
 
+		pip install pysdl2
+
 For archLinux the packages are pretty much the same, so: 
 
 		pacman -S python
@@ -25,6 +27,8 @@ For archLinux the packages are pretty much the same, so:
 
 		pacman -S sdl2_image
 
+		pip install pysdl2
+
 The same for macOs using brew : 
 
 		brew install python
@@ -34,6 +38,9 @@ The same for macOs using brew :
 		brew install sdl2_ttf
 
 		brew install sdl2_image
+
+		pip install pysdl2
+
 
 
 # usage 
