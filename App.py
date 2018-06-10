@@ -143,7 +143,7 @@ class Gui() :
 
 		P = 0
 
-		print(L)
+		#print(L)
 
 		for elem in L:
 			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(color[0], color[1], color[2]))
@@ -214,7 +214,7 @@ class Gui() :
 			if L[i] == '':
 				del L[i]
 
-		print(L)
+		#print(L)
 		if L[-1][0] == " ":
 			L[-1] = L[-1][1:]
 
@@ -222,7 +222,7 @@ class Gui() :
 
 		P = 0
 
-		print(L)
+		#print(L)
 
 		for elem in L:
 			afficher = False
@@ -230,7 +230,7 @@ class Gui() :
 				if mots_definie[i] in elem :
 					mots = mots_definie[i]
 					afficher = True
-					print(mots)
+					#print(mots)
 					position = elem.find(mots)
 					fin_mots = len(mots) + position
 					Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem[:position]), SDL_Color(0, 0, 0))
@@ -250,7 +250,7 @@ class Gui() :
 					P += pas
 
 			if not afficher :
-				print(elem)
+				#print(elem)
 				Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(color[0], color[1], color[2]))
 				a = [Text, SDL_Rect(Deb,Deby + P)]
 				self.elmt_afficher.append(a)
