@@ -11,16 +11,16 @@ class Tomate(Plante.Plante):
 		self.type = "tomate"
 		self.state = 3
 		self.etapes = [
-			"A1",
-			"A2",
-			"A3",
-			"A4",
-			"A5",
-			"A6",
-			"A7",
-			"A8",
-			"A9",
-			"A10",
+			"A1", # preparation
+			"A2", # Germination
+			"A3", # Fin Germination 
+			"A4", # Mise en terre
+			"A5", # Lampes
+			"A6", # Engrais
+			"A7", # Installation lampe
+			"A8", # Croissance
+			"A9", # Rampotage/ Croissance
+			"A10", # Floraison
 			"A11"
 		]
 
@@ -127,7 +127,7 @@ class Tomate(Plante.Plante):
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
 				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
 				de terreau, tassez, puis arrosez."
-				, ["d'accord"], [[interface, "accueil"]])
+				, ["ok"], [[interface, "accueil"]])
 
 			self.Rempoter +=1
 
@@ -172,6 +172,7 @@ class Tomate(Plante.Plante):
 			self.Floraison_début = datetime.date.today()
 			interface.acquisition("Très bien nous pouvons continuer"
 				, ["ok"], [[self, "A11", interface]])
-		elif reponse == "oui" :
+			
+		elif reponse == "non" :
 			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
 				, ["ok"], [[interface, "ma_plante", self]])
