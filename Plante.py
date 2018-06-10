@@ -51,7 +51,7 @@ class Plante :
 			# Acquisition pot/terre
 			interface.acquisition("Bonjour, vous avez decidé de planter une plante avec notre logiciel, bravo ! \
 				Nous avons tout d'abord besoin d'une information, voulez-vous planter en pot ou en terre ?"
-				,["p","t"], [[self, "A1", [interface, "p"]], [self, "A1", [interface, "t"]]])
+				,["Pot","Terre"], [[self, "A1", [interface, "p"]], [self, "A1", [interface, "t"]]])
 
 		else :
 			self.Pot = reponse
@@ -81,7 +81,7 @@ class Plante :
 		if self.Pot:
 			if reponse == None :
 				interface.acquisition("Votre graine a-t-elle <def =un germe est une premiere pousse>germée</def>? Si c'est le cas un germe à du sortir. "
-				, ["oui", "non"], [[self, "A4", interface], [self, "A3", [interface, "non"]]])
+				, ["Oui", "Non"], [[self, "A4", interface], [self, "A3", [interface, "non"]]])
 
 			if reponse == "non" :
 				interface.acquisition("Revenez vers nous une fois qu'elle aura germée."

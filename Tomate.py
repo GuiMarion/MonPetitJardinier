@@ -47,21 +47,12 @@ class Tomate(Plante.Plante):
 				Que voulez-vous faire ?",["lampe", "lumiere naturelle"], [[self, "A5", [interface, "lampe"]], [self, "A5", [interface, "lumiere naturelle"]]])
 
 
-		if reponse == "lampe":
+		elif reponse == "lampe":
 			self.Lampe = True
 			interface.acquisition("C'est un très bon choix. La lampe est-elle une \
 			<def = Les lampes HPS émettent une lumière orange et leur spectre de couleurs est mieux adapté pour la floraison ou la fructification.>HPS</def> ? "
-			,["oui", "non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
+			,["Oui", "Non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
 
-		if reponse == "HPS" :
-			self.Lampe_HPS = True
-		elif reponse == "non HPS" :
-			self.Lampe_HPS = False
-
-			interface.acquisition("Quelle est la puissance (en watts)",None,None)
-			rep = interface.input(200, 200)
-			self.Lampe_puissance = int(rep)
-			self.A6(interface, None)
 
 		elif reponse == "lumiere naturelle":
 			self.Lampe = False
@@ -69,6 +60,21 @@ class Tomate(Plante.Plante):
 				être attentif à l'ensoleillement de votre plante (au moins 6h de plein soleil par jours)\
 				ainsi qu'au risque climatique et naturels (grêle, pluit, vent, ...) que notre application\
 				ne pourra pas prévoir.",["ok"], [[self, "A6", [interface, None]]])
+
+		else : 
+
+			if reponse == "HPS" :
+				self.Lampe_HPS = True
+			
+			elif reponse == "non HPS" :
+				self.Lampe_HPS = False
+			
+
+			interface.acquisition("Quelle est la puissance (en watts)",None,None)
+			rep = interface.input(200, 200)
+			self.Lampe_puissance = int(rep)
+			self.A6(interface, None)
+
 
 
 
