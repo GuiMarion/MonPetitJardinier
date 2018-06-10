@@ -39,18 +39,18 @@ class Plante :
 				interface.acquisition("Il est temps d'arroser, votre plante pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir."
 					,["ok"], [[interface, "retour_arriere"]])
-			elif not self.Engrais_last
+
+			elif not self.Engrais_last: 
 				interface.acquisition("Il est temps d'arroser, votre plante pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir. Vous devrez aussi mettre \
-				 de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau."
-					,["ok"], [[interface, "retour_arriere"]])
+				 de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
 				self.Engrais_last = True
+
 			else:
 				interface.acquisition("Il est temps d'arroser, votre plante pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir."
 					,["ok"], [[interface, "retour_arriere"]])
 				self.Engrais_last = False
-
 
 	def A1(self, interface, reponse=None):
 		if (reponse == None) :
