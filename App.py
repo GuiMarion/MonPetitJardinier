@@ -319,7 +319,7 @@ class Gui() :
 				self.printD(20, x.value+10, y.value+10, definition[0], color = [51, 57, 255])
 				for i in range(len(self.elmt_afficher) - temp) :
 					SDL_BlitSurface(self.elmt_afficher[temp+i][0], None, self.windowSurface, self.elmt_afficher[temp+i][1])
-				del self.elmt_afficher[-temp:]
+				del self.elmt_afficher[temp:]
 
 		#verification des events.
 		self.event()
