@@ -23,9 +23,9 @@ class Gui() :
 	historique = []
 	elmt_afficher = []
 	img_ok = SDL_LoadBMP(b"pictures/OK.bmp")
-	A = ["Preparation",
-	"Germination",
-	"Fin Germination",
+	A = ["Préparation",
+	"Gérmination",
+	"Fin Gérmination",
 	"Mise en terre",
 	"Lampes",
 	"Engrais",
@@ -39,14 +39,14 @@ class Gui() :
 	def __init__(self, plantes):
 		#initialisation de la sdl
 		if SDL_Init(SDL_INIT_VIDEO) < 0  :
-			print("problème d'initialisation : " + str(SDL_GetError()))
+			print("Problème d'initialisation : " + str(SDL_GetError()))
 
 		#creation de la fenetre
-		self.window = SDL_CreateWindow(b"mon petit jardinier",
+		self.window = SDL_CreateWindow(b"Mon Petit Jardinier",
 								  SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 								  600, 600, SDL_WINDOW_SHOWN)
 		if self.window == None :
-			print("erreur lors de la creation de la fenetre.")
+			print("Erreur lors de la création de la fenêtre.")
 
 		self.windowSurface = SDL_GetWindowSurface(self.window)
 		#initialisation de sdl_ttf
@@ -142,8 +142,6 @@ class Gui() :
 		police =  sdlttf.TTF_OpenFont(str.encode("Fonts/"+font+".ttf"), size)
 
 		P = 0
-
-		#print(L)
 
 		for elem in L:
 			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(color[0], color[1], color[2]))
@@ -360,7 +358,7 @@ class Gui() :
 		if self.historique[-1] != [self, "nouvelle_plante"] :
 			self.historique.append([self, "nouvelle_plante"])
 
-		self.printT(50, 90, 15, "Mon petit jardinier")
+		self.printT(50, 90, 15, "Mon Petit Jardinier")
 
 		for i in range(len(self.type_de_plantes)) :
 			img = SDL_LoadBMP(str.encode("pictures/" + self.type_de_plantes[i] + ".bmp"))
@@ -376,7 +374,7 @@ class Gui() :
 		self.boutons = []
 		self.definitions = []
 
-		self.printT(20, 50, 100, "quelle nom souhaitez vous donnez à votre plante ?")
+		self.printT(20, 50, 100, "Quel nom souhaitez-vous donnez à votre plante ?")
 		name = self.input(200, 200)
 
 		p = eval(type_de_plantes)(name)
