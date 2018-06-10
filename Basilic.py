@@ -10,8 +10,8 @@ class Basilic(Plante.Plante):
 		Plante.Plante.__init__(self,name)
 		self.type = "basilic"
 		self.etapes = [
-			"A2",
 			"A1",
+			"A2",
 			"A3",
 			"A4",
 			"A5",
@@ -33,9 +33,10 @@ class Basilic(Plante.Plante):
 			return(self)
 
 
-	def A5(self, interface, reponse):
+	def A5(self, interface, reponse=None):
 		# Acquisition lumière
-		self.state = 5
+		if self.state < 5 :
+			self.state = 5
 
 		if reponse == None :
 			interface.acquisition("Votre plante est desormais en terre, il lui faudra maintenant de la lumière pour vivre.\
@@ -73,7 +74,8 @@ class Basilic(Plante.Plante):
 
 	def A7(self, interface):
 		# Affichage croissance
-		self.state = 7
+		if self.state < 7 :
+			self.state = 7
 
 		if self.Lampe:
 				interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
@@ -97,7 +99,8 @@ class Basilic(Plante.Plante):
 
 	def A9(self, interface):
 		#Affichage rempotage/ taille/ floraison
-		self.state = 9
+		if self.state < 9 :
+			self.state = 9
 
 		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
 			interface.acquisition("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
@@ -131,9 +134,10 @@ class Basilic(Plante.Plante):
 
 
 
-	def A10(self, interface, reponse):
+	def A10(self, interface, reponse=None):
 		# Acquisition floraison
-		self.state = 10
+		if self.state < 10 :
+			self.state = 10
 
 		if reponse == None :
 			interface.acquisition("Vous devriez être passé en floraison et avoir effectué les premières tailles. Est-ce bien le cas ?"

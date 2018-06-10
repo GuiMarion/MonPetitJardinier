@@ -228,6 +228,7 @@ class Gui() :
 			#création du bouton
 			self.boutons.append([(i*pas + deb , H, i*pas + deb +100 , H +130), self, "creation_plante", self.type_de_plantes[i]])
 
+
 	#fonction ajoutant une plante à self.plante
 	def creation_plante(self, type_de_plantes) :
 		#ask name
@@ -236,10 +237,11 @@ class Gui() :
 
 		self.printT(20, 50, 100, "quelle nom souhaitez vous donnez à votre plante ?")
 		name = self.input(200, 200)
-		
+
 		p = eval(type_de_plantes)(name)
 		self.plantes.append(p)
 		self.plantes[-1].A1(self, None)
+
 
 	#fenetre d'affichage de plante.
 	def ma_plante(self, plante) :
@@ -247,14 +249,15 @@ class Gui() :
 		self.boutons = []
 		self.historique.append([self,  "ma_plante", [plante]])
 
-		self.printT(60, 10, 10, plante.getName())
+		self.printT(60, 250, 10, plante.getName())
 
 		past_task = plante.etapes[:plante.state]
 		advised_task =plante.etapes[plante.state]
 		futur_task = plante.etapes[(plante.state+1):]
 
 		for i in range(len(past_task)) :
-			self.printT(60, i*60+10, 120, str(past_task[i]))
+			self.printT(20, i*60+10, 120, str(past_task[i]))
+			self.boutons.append([(i*60+10, 120, i*60+35, 145), plante, past_task[i], self])
 
 		"""for i in range(len(advised_task)) :
 			if advised_task[i][0] == "a temps" :
@@ -265,11 +268,12 @@ class Gui() :
 				color = SDL_Color(230, 230, 255)
 		"""
 		#color = SDL_Color(230, 230, 255)
-		self.printT(60, 80, 220, str(advised_task))
-		self.boutons.append([(80, 220, 90, 230), plante, advised_task, self])
+		self.printT(40, 250, 220, str(advised_task))
+		self.boutons.append([(245, 220, 300, 270), plante, advised_task, self])
 
 		for i in range(len(futur_task)) :
-			self.printT(60, i*80+10, 420, str(futur_task[i]))
+			self.printT(20, i*80+10, 420, str(futur_task[i]))
+			self.boutons.append([(i*80+10, 420, i*80+42, 445), plante, futur_task[i], self])
 
 
 	#affiche la fenetre d'accueil.
@@ -382,7 +386,6 @@ plante_existante = [Basilic("toto")]
 plante_existante.append(Tomate("titi"))
 a = Gui(plante_existante)
 
-#a.nouvelle_plante()
 a.accueil()
 
 #boucle principale du programme doit être de cette forme (ce qui doit être ajouté doit-être avant le event())

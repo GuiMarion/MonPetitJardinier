@@ -42,8 +42,7 @@ class Plante :
 
 
 
-	def A1(self, interface, reponse):
-		print("a1")
+	def A1(self, interface, reponse=None):
 		if (reponse == None) :
 			# Acquisition pot/terre
 			interface.acquisition("Bonjour, vous avez decidé de planter une plante avec notre logiciel, bravo ! \
@@ -51,8 +50,9 @@ class Plante :
 
 		else :
 			self.Pot = reponse
-			self.state = 2
 			self.A2(interface)
+			if self.state == 1 :
+				self.state = 2
 
 
 
@@ -71,7 +71,8 @@ class Plante :
 
 	def A3(self, interface):
 		# Acquisition germination
-		self.state = 3
+		if self.state == 2 :
+			self.state = 3
 		if self.Pot:
 			interface.acquisition("Votre graine a-t-elle germée ? Si c'est le cas un germe à du sortir. ", ["oui"], [[self, "A4", interface]])
 		"""
@@ -82,16 +83,18 @@ class Plante :
 
 
 	def A4(self, interface):
-		self.state = 4
 		# Procédure pour mettre la graine en terre (cas Pot = 1)
+		if self.state == 3 :
+			self.state = 4
 		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
 			préalablement désinfectée et la déposer dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
 			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser.",["ok"], [[self, "A5", [interface, None]]])
 
 
-	def A6(self, interface, reponse):
+	def A6(self, interface, reponse=None):
 		# Acquisition engrais
-		self.state = 6
+		if self.state == 5 :
+			self.state = 6
 
 		if reponse == None :
 			interface.acquisition("Voulez-vous utiliser des engrais ? ",["oui", "non"], [[self, "A6", [interface, "oui"]], [self, "A6", [interface, "non"]]])
@@ -101,7 +104,7 @@ class Plante :
 		if self.Engrais:
 			print("Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
 				la bouteille.")
-			rep = input()
+			rep = interface.input(200, 200)
 			self.Engrais_quantite = int(rep)
 
 			interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
@@ -112,10 +115,11 @@ class Plante :
 
 def A8(self):
 	# Acquisition taille
-	self.state =  8
+	if self.state == 7 :
+		self.state =  8
 
 	print("Quelle est la taille de votre plante ? (en cm)")
-	rep = input()
+	rep = interface.input(200, 200)
 	self.Taille = int(rep)
 
 	self.A9()
@@ -123,6 +127,7 @@ def A8(self):
 
 
 def A11(self):
-	self.state = 11
+	if self.state == 10 :
+		self.state = 11
 	interface.acquisition("felicitation, au cours de ces quelques mois vous avez appris beaucoup sur le jardinage."
 		, ["ok"], [[interface, "accueil"]])
