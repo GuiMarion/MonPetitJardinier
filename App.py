@@ -94,7 +94,7 @@ class Gui() :
 		pas = size
 		L = []
 		k = 0
-		MOD = 20 
+		MOD = 20
 
 
 		i = len(text)-1
@@ -151,7 +151,7 @@ class Gui() :
 		pas = size
 		L = []
 		k = 0
-		MOD = 45 
+		MOD = 45
 
 		Deb = 100
 		Deby = 120
@@ -313,11 +313,13 @@ class Gui() :
 		#on affiche les definitions si necessaire :
 		x, y = ctypes.c_int(0), ctypes.c_int(0)
 		buttonstate = sdl2.mouse.SDL_GetMouseState(ctypes.byref(x), ctypes.byref(y))
+		temp = len(self.elmt_afficher)
 		for definition in self.definitions :
 			if (definition[1] <= x.value and definition[3] >= x.value and definition[2] <= y.value and definition[4] >= y.value) :
 				self.printD(20, x.value+10, y.value+10, definition[0], color = [51, 57, 255])
-				SDL_BlitSurface(self.elmt_afficher[-1][0], None, self.windowSurface, self.elmt_afficher[-1][1])
-				del self.elmt_afficher[-1]
+				for i in range(len(self.elmt_afficher) - temp) :
+					SDL_BlitSurface(self.elmt_afficher[temp+i][0], None, self.windowSurface, self.elmt_afficher[temp+i][1])
+				del self.elmt_afficher[-temp:]
 
 		#verification des events.
 		self.event()
