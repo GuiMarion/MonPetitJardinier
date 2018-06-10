@@ -55,8 +55,10 @@ class Tomate(Plante.Plante):
 
 		if reponse == "HPS" :
 			self.Lampe_HPS = True
+		elif reponse == "non HPS" :
+			self.Lampe_HPS = False
 
-			print("Quelle est la puissance (en watts)")
+			interface.acquisition("Quelle est la puissance (en watts)",None,None)
 			rep = interface.input(200, 200)
 			self.Lampe_puissance = int(rep)
 			self.A6(interface, None)
