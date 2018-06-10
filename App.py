@@ -445,7 +445,7 @@ class Gui() :
 				self.elmt_afficher.append([img_basilic, SDL_Rect(i*pas + deb, H)])
 
 			self.boutons.append([(i*pas + deb , H, i*pas + deb +100 , H +130), self, "ma_plante", self.plantes[i]])
-			#self.printT(60, i*70, 400, self.plantes[i].getName())
+			self.printT(15, i*pas + deb+ 20, H + 150, self.plantes[i].getName())
 
 		self.printT(30, 400, H, "Nouvelle \n Plante")
 		self.boutons.append([(400, H, 510, H + 100), self, "nouvelle_plante"])
