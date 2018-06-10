@@ -129,8 +129,8 @@ class Basilic(Plante.Plante):
 			self.A10()
 
 		else :
-			interface.acquisition("Vous n'avez rien a faire pour le moment."
-				, ["d'accord"], [[interface, "accueil"]])
+			interface.acquisition("Vous n'avez rien a faire pour le moment, il faut attendre que votre plante pousse."
+				, ["ok"], [[interface, "accueil"]])
 
 
 

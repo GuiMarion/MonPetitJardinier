@@ -17,7 +17,7 @@ class Plante :
 		self.Engrais = None
 		self.Engrais_freq = None
 		self.Engrais_quantite = None
-		self.Taille = None
+		self.Taille = 0
 		self.Floraison = None
 		self.Floraison_début = None
 		self.Rempoter = 0
@@ -69,16 +69,18 @@ class Plante :
 
 
 
-	def A3(self, interface):
+	def A3(self, interface, reponse=None):
 		# Acquisition germination
 		if self.state == 2 :
 			self.state = 3
 		if self.Pot:
-			interface.acquisition("Votre graine a-t-elle germée ? Si c'est le cas un germe à du sortir. ", ["oui"], [[self, "A4", interface]])
-		"""
-			if rep == 'n':
-				print("Revenez vers nous une fois qu'elle aura germée.")
-		"""
+			if reponse == None :
+				interface.acquisition("Votre graine a-t-elle germée ? Si c'est le cas un germe à du sortir. "
+				, ["oui", "non"], [[self, "A4", interface], [self, "A3", [interface, "non"]]])
+
+			if reponse == "non" :
+				interface.acquisition("Revenez vers nous une fois qu'elle aura germée."
+				,["ok"], [[self, "A4", interface]])
 
 
 
@@ -99,18 +101,27 @@ class Plante :
 		if reponse == None :
 			interface.acquisition("Voulez-vous utiliser des engrais ? ",["oui", "non"], [[self, "A6", [interface, "oui"]], [self, "A6", [interface, "non"]]])
 
-		self.Engrais = (reponse == 'oui')
+		if reponse == "oui" or reponse == "non" :
+			self.Engrais = (reponse == 'oui')
 
 		if self.Engrais:
-			print("Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
+			if reponse == 1 or reponse == 2 :
+				self.Engrais_freq = int(reponse)
+				self.A7(interface)
+
+			else :
+				interface.elmt_afficher = []
+				interface.boutons = []
+				interface.printT(25, 20, 100, "Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
 				la bouteille.")
-			rep = interface.input(200, 200)
-			self.Engrais_quantite = int(rep)
+				rep = interface.input(200, 200)
+				self.Engrais_quantite = int(rep)
 
-			interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
-				un arrosage pour deux.",["1", "2"], [[self, "A6", [interface, 1]], [self, "A6", [interface, 2]]])
+				interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
+					un arrosage pour deux.",["1", "2"], [[self, "A6", [interface, 1]], [self, "A6", [interface, 2]]])
 
-		self.A7(interface)
+		if self.Engrais == False :
+			self.A7(interface)
 
 
 def A8(self):

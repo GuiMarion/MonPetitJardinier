@@ -75,12 +75,14 @@ class Tomate(Plante.Plante):
 			self.state = 7
 
 		if self.Lampe:
-				interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
-					construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
-					de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
-					La photopériode doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez\
-					vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
-					de lumière possible est une bonne pratique.", ["ok"], [[interface, "accueil"]])
+			interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
+				construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
+				de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
+				La photopériode doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez\
+				vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
+				de lumière possible est une bonne pratique.", ["ok"], [[interface, "accueil"]])
+		else :
+			self.A8(interface)
 
 
 	def A8(self, interface):
@@ -90,7 +92,7 @@ class Tomate(Plante.Plante):
 
 		if self.Lampe:
 
-				interface.acquisition("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
+				interface.acquisition("Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
 					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement\
 					la taille de vos plantes afin de vous indiquer les prochaines démarches."
 					,["ok"], [[interface, "accueil"]])
@@ -136,8 +138,8 @@ class Tomate(Plante.Plante):
 			self.A10()
 
 		else :
-			interface.acquisition("Vous n'avez rien a faire pour le moment."
-				, ["d'accord"], [[interface, "accueil"]])
+			interface.acquisition("Vous n'avez rien a faire pour le moment, il faut attendre que votre plante pousse."
+				, ["ok"], [[interface, "accueil"]])
 
 
 	def A10(self, interface, reponse=None):
@@ -152,7 +154,7 @@ class Tomate(Plante.Plante):
 		if reponse == 'oui' :
 			self.Floraison = True
 			self.Floraison_début = datetime.date.today()
-			interface.acquisition("Très bien vous pouvons continuer"
+			interface.acquisition("Très bien nous pouvons continuer"
 				, ["ok"], [[self, "A11", interface]])
 		else :
 			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
