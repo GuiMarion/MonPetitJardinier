@@ -140,8 +140,8 @@ class Plante :
 
 
 
-def A11(self):
-	if self.state == 10 :
-		self.state = 11
-	interface.acquisition("felicitation, au cours de ces quelques mois vous avez appris beaucoup sur le jardinage."
-		, ["ok"], [[interface, "accueil"]])
+	def A11(self, interface):
+		if self.state == 10 :
+			self.state = 11
+		interface.acquisition("felicitation, au cours de ces quelques mois vous avez appris beaucoup sur le jardinage."
+			, ["ok"], [[interface, "accueil"]])
