@@ -61,6 +61,7 @@ class Gui() :
 		while self.run :
 			for plante in self.plantes :
 				plante.Arrosage(self)
+				plante.Recolte()
 			self.affichage()
 
 
