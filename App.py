@@ -445,13 +445,13 @@ class Gui() :
 				self.elmt_afficher.append([img_basilic, SDL_Rect(i*pas + deb, H)])
 
 			self.boutons.append([(i*pas + deb , H, i*pas + deb +100 , H +130), self, "ma_plante", self.plantes[i]])
-			#self.printT(60, i*70, 400, self.plantes[i].getName())
+			self.printT(15, i*pas + deb+ 20, H + 150, self.plantes[i].getName())
 
-		self.printT(30, 400, H, "nouvelle \n plante")
+		self.printT(30, 400, H, "Nouvelle \n Plante")
 		self.boutons.append([(400, H, 510, H + 100), self, "nouvelle_plante"])
 
 
-	#fenetre d'acquisition. reponse sous la forme [reponse1, reponse2...]. action sous la forme [[]]
+	#fenetre d'acquisition. réponse sous la forme [reponse1, reponse2...]. action sous la forme [[]]
 	def acquisition(self, question, reponses, action) :
 
 		Deb = 120
@@ -496,7 +496,7 @@ class Gui() :
 			pass
 
 
-	#affiche une pop-up (géré directement par gnome/kde/..., pas par la sdl)
+	#affiche une pop-up (géré directement par le system pas par la sdl)
 	def pop_up(self, title, text) :
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, str.encode(title), str.encode(text), self.window)
 
@@ -516,10 +516,12 @@ class Gui() :
 						finie = True
 					elif event.key.keysym.sym ==  SDLK_RETURN:
 						finie = True
-					elif event.key.keysym.sym == SDLK_BACKSPACE :
-						temp = list(text)
-						del temp[-1]
-						text = "".join(temp)
+					elif event.key.keysym.sym == SDLK_BACKSPACE:
+
+						if len(text) > 0:
+							temp = list(text)
+							del temp[-1]
+							text = "".join(temp)
 
 					else :
 						try :
@@ -539,7 +541,7 @@ class Gui() :
 
 	def quit(self):
 
-		self.pop_up("au revoir", "Merci d'avoir utilisé l'application, à bientôt.")
+		self.pop_up("Au revoir", "Merci d'avoir utilisé l'application, à bientôt.")
 		pickle.dump(self.plantes, open(".state", 'wb'), pickle.HIGHEST_PROTOCOL)
 
 	def reset(self):
