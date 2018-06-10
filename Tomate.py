@@ -40,9 +40,9 @@ class Tomate(Plante.Plante):
 		if reponse == None :
 			interface.acquisition("Votre plante est desormais en terre, il lui faudra maintenant de la lumière pour vivre. \
 				Vous pouvez utiliser une lampe agricole ou bien la lumière naturelle, cependant \
-				il vous faudra beaucoup de lumière, la lumière naturelle sera donc appropriée dans une région\
+				il vous faudra beaucoup de lumière, la lumière naturelle sera donc appropriée dans une région \
 				ensoleillée à un endroit qui n'est pas à l'ombre. Une lampe agricole peut être utilisée seule ou en \
-				complément et devra être d'au moins 125-250 watts (ce qui a un coût non négligeable en élécricité.)\n\
+				complément et devra être d'au moins 125-250 watts (ce qui a un coût non négligeable en élécricité.) \n\
 				Que voulez-vous faire ?",["lampe", "lumiere naturelle"], [[self, "A5", [interface, "lampe"]], [self, "A5", [interface, "lumiere naturelle"]]])
 
 
@@ -82,6 +82,7 @@ class Tomate(Plante.Plante):
 			self.state = 7
 
 		if self.Lampe:
+
 			interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez \
 				construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette \
 				de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante. \
@@ -122,7 +123,7 @@ class Tomate(Plante.Plante):
 
 		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
 			interface.acquisition("Il est temps de <def = Déplacer la plante dans un pot plus grand>rempoter</def> votre plante. \
-			 	Pour cela attendez le prochain arrosage et avant d'arroser,\
+			 	Pour cela attendez le prochain arrosage et avant d'arroser, \
 				sortez votre plante de son pot en tapant sur l'arrière. Vous devriez pouvoir sortir la motte de \
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou \
 				de la taille de la motte de terre que vous avez sortie, et glissez la à l'interieur. Soupoudrez le tout \
@@ -131,10 +132,11 @@ class Tomate(Plante.Plante):
 
 			self.Rempoter +=1
 
-		elif self.Taille > 30 and self.Lampe and not self.Floraison:
-			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe et en mettre \
-				une adaptée à la floraison (elle a un spectre plus chaud, plus jaune). Et réduire la \
-				<def = La photopériode est la durée d'ensolleimment sur une journée>photopériode</def>  à 12h de lumière par jour."
+
+		elif self.Taille > 30 and self.Lampe:
+			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour \
+				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la \
+				<def = La photopériode est le rapport entre la durée d'ensoleimment sur une journée>photopériode</def> à 12h de lumière par jour."
 				, ["ok"], [[interface, "accueil"]])
 			self.Floraison = True
 
