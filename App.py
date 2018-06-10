@@ -14,6 +14,7 @@ class Gui() :
 
 	type_de_plantes = ["Tomate", "Basilic"] #type de plante : "tomate, "basilique", ...
 	boutons = [] #[x,y,h,w, methode à appeler, argument(s)]
+	definitions = []
 	window = None
 	run = True
 	windowSurface = None
@@ -51,12 +52,11 @@ class Gui() :
 			self.affichage()
 
 
-	def printT(self, size, x, y, text, font = "SanFranciscoRegular"):
+	def printT(self, size, x, y, text, font = "SanFranciscoRegular", color = [0,0,0]):
 
 		pas = size
 		L = []
 		k = 0
-
 		while k < len(text):
 			if text[k] == '\n':
 				L.append(text[:k])
@@ -80,15 +80,17 @@ class Gui() :
 		P = 0
 
 		for elem in L:
-			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(0, 0, 0))
+			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(color[0], color[1], color[2]))
 			a = [Text, SDL_Rect(x,y + P)]
 			self.elmt_afficher.append(a)
 			P += pas
 
 		sdlttf.TTF_CloseFont(police)
 
-	def printTexte(self, size, text, font = "SanFranciscoRegular"):
+	def printTexte(self, size, text, font = "SanFranciscoRegular", color = [0, 0, 0]):
 
+		definition = []
+		mots_definie = []
 		pas = size
 		L = []
 		k = 0
@@ -103,6 +105,16 @@ class Gui() :
 				text = text[:i] + text[i+1:]
 			i = i -1
 
+		if "<def" in text :
+			a = text.find("<def")
+			b = text.find(">")
+			definition.append(text[(a+6):].split(text[b:])[0])	#on recupere la definition et le mot associer
+			c = text.find("</def>")
+			mots_definie.append(text[(b+1):].split(text[c:])[0])
+
+			text = text[:a] + text[(b+1):]		#on supprime les balises du texte
+			c = text.find("</def>")
+			text = text[:c] + text[(c+6):]
 
 		M = ""
 		for i in range(len(text)):
@@ -137,10 +149,36 @@ class Gui() :
 		P = 0
 
 		for elem in L:
-			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(0, 0, 0))
-			a = [Text, SDL_Rect(Deb,Deby + P)]
-			self.elmt_afficher.append(a)
-			P += pas
+			afficher = False
+			for i in range(len(mots_definie)) :
+				if mots_definie[i] in elem :
+					mots = mots_definie[i]
+					afficher = True
+					print(mots)
+					position = elem.find(mots)
+					fin_mots = len(mots) + position
+					Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem[:position]), SDL_Color(0, 0, 0))
+					a = [Text, SDL_Rect(Deb,Deby + P)]
+					self.elmt_afficher.append(a)
+
+					Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem[position:].split(elem[fin_mots:])[0]), SDL_Color(50, 50, 150))
+					pos = Deb + int(position*8.5)
+					a = [Text, SDL_Rect(pos,Deby + P)]
+					self.elmt_afficher.append(a)
+					self.definitions.append([definition[i], pos, Deby+P+2, Deb+fin_mots*9+2, P+pas+Deby])
+
+					Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem[fin_mots:]), SDL_Color(color[0], color[1], color[2]))
+					a = [Text, SDL_Rect(Deb + fin_mots*9+2,Deby + P)]
+					self.elmt_afficher.append(a)
+
+					P += pas
+
+			if not afficher :
+				print(elem)
+				Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(color[0], color[1], color[2]))
+				a = [Text, SDL_Rect(Deb,Deby + P)]
+				self.elmt_afficher.append(a)
+				P += pas
 
 		sdlttf.TTF_CloseFont(police)
 
@@ -213,10 +251,14 @@ class Gui() :
 		for a in self.elmt_afficher :
 			SDL_BlitSurface(a[0], None, self.windowSurface, a[1])
 
-		#pour permettre de visualiser les boutons :
-		#for button in self.boutons :
-		#	SDL_FillRect(self.windowSurface, SDL_Rect(button[0][0], button[0][1], (button[0][2] - button[0][0]), (button[0][3] -button[0][1])), 0x999999)
-			#print(button[0])
+		#on affiche les definitions si necessaire :
+		x, y = ctypes.c_int(0), ctypes.c_int(0)
+		buttonstate = sdl2.mouse.SDL_GetMouseState(ctypes.byref(x), ctypes.byref(y))
+		for definition in self.definitions :
+			if (definition[1] <= x.value and definition[3] >= x.value and definition[2] <= y.value and definition[4] >= y.value) :
+				self.printT(20, x.value+10, y.value+10, definition[0], color = [51, 57, 255])
+				SDL_BlitSurface(self.elmt_afficher[-1][0], None, self.windowSurface, self.elmt_afficher[-1][1])
+				del self.elmt_afficher[-1]
 
 		#verification des events.
 		self.event()

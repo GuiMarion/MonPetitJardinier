@@ -46,7 +46,8 @@ class Plante :
 		if (reponse == None) :
 			# Acquisition pot/terre
 			interface.acquisition("Bonjour, vous avez decidé de planter une plante avec notre logiciel, bravo ! \
-				Nous avons tout d'abord besoin d'une information, voulez-vous planter en pot ou en terre ?",["p","t"], [[self, "A1", [interface, "p"]], [self, "A1", [interface, "t"]]])
+				Nous avons tout d'abord besoin d'une information, voulez-vous planter en pot ou en terre ?"
+				,["p","t"], [[self, "A1", [interface, "p"]], [self, "A1", [interface, "t"]]])
 
 		else :
 			self.Pot = reponse
@@ -75,12 +76,12 @@ class Plante :
 			self.state = 3
 		if self.Pot:
 			if reponse == None :
-				interface.acquisition("Votre graine a-t-elle germée ? Si c'est le cas un germe à du sortir. "
+				interface.acquisition("Votre graine a-t-elle <def =un germe est une premiere pousse>germée</def>? Si c'est le cas un germe à du sortir. "
 				, ["oui", "non"], [[self, "A4", interface], [self, "A3", [interface, "non"]]])
 
 			if reponse == "non" :
 				interface.acquisition("Revenez vers nous une fois qu'elle aura germée."
-				,["ok"], [[self, "A4", interface]])
+				,["ok"], [[interface, "accueil"]])
 
 
 
@@ -90,7 +91,8 @@ class Plante :
 			self.state = 4
 		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez\
 			préalablement désinfectée et la déposer dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur\
-			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser.",["ok"], [[self, "A5", [interface, None]]])
+			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser."
+			,["ok"], [[self, "A5", [interface, None]]])
 
 
 	def A6(self, interface, reponse=None):
