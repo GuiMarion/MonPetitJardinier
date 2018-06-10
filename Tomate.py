@@ -49,7 +49,8 @@ class Tomate(Plante.Plante):
 
 		if reponse == "lampe":
 			self.Lampe = True
-			interface.acquisition("C'est un très bon choix. La lampe est-elle une HPS ? "
+			interface.acquisition("C'est un très bon choix. La lampe est-elle une \
+			<def = Les lampes HPS émettent une lumière orange et leur spectre de couleurs est mieux adapté pour la floraison ou la fructification.>HPS</def> ? "
 			,["oui", "non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
 
 		if reponse == "HPS" :
@@ -112,7 +113,8 @@ class Tomate(Plante.Plante):
 			self.state = 9
 
 		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
-			interface.acquisition("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
+			interface.acquisition("Il est temps de <def = rempoter est l'acte de changer une plante de pot>rempoter</def> votre plante.\
+			 	Pour cela attendez le prochain arrosage et avant d'arroser,\
 				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
 				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
@@ -124,7 +126,7 @@ class Tomate(Plante.Plante):
 		if self.Taille > 30 and self.Lampe:
 			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour\
 				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la\
-				photopériode à 12h de lumière par jour."
+				<def = La photopériode est le rapport entre la durée du jour et la durée de la nuit>photopériode</def> à 12h de lumière par jour."
 				, ["d'accord"], [[interface, "accueil"]])
 
 		if self.Taille > 35:

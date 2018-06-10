@@ -114,8 +114,8 @@ class Plante :
 			else :
 				interface.elmt_afficher = []
 				interface.boutons = []
-				interface.printT(25, 20, 100, "Quelle est la quantité à mettre dans un litre ? (en mL) ? Cette information devrait se situer derriere \
-				la bouteille.")
+				interface.printT(25, 20, 100, "Quelle est la quantité à mettre dans un litre ? (en <def =un mL est 1/1000 Litre>mL</def>) ?\
+				 Cette information devrait se situer derriere la bouteille.")
 				rep = interface.input(200, 200)
 				self.Engrais_quantite = int(rep)
 

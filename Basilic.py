@@ -49,7 +49,8 @@ class Basilic(Plante.Plante):
 
 		if reponse == "lampe":
 			self.Lampe = True
-			interface.acquisition("C'est un très bon choix. La lampe est-elle une HPS ? "
+			interface.acquisition("C'est un très bon choix. La lampe est-elle une \
+			<def = Les lampes HPS émettent une lumière orange et leur spectre de couleurs est mieux adapté pour la floraison ou la fructification.>HPS</def> ? "
 			,["oui", "non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
 
 		if reponse == "HPS" :
@@ -81,7 +82,8 @@ class Basilic(Plante.Plante):
 				interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
 					construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette\
 					de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante.\
-					La photopériode doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez\
+					La <def = La photopériode est le rapport entre la durée du jour et la durée de la nuit>photopériode</def> \
+					doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez\
 					vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins\
 					de lumière possible est une bonne pratique.\n\
 					Une fois fait, bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser\
@@ -103,7 +105,8 @@ class Basilic(Plante.Plante):
 			self.state = 9
 
 		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
-			interface.acquisition("Il est temps de rempoter votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
+			interface.acquisition("Il est temps de <def = rempoter est l'acte de changer une plante de pot>rempoter</def> \
+			 	votre plante. Pour cela attendez le prochain arrosage et avant d'arroser,\
 				sortez votre plante de son pot en tapant sur l'arrière du pot. Vous devriez pouvoir sortir la motte de\
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou\
 				de la taille de la motte de terre que vous avez sortie, et glissez là à l'interieur. Soupoudrez le tout\
