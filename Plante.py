@@ -22,6 +22,7 @@ class Plante :
 		self.Floraison_début = None
 		self.Rempoter = 0
 		self.Arrosage_last = datetime.datetime.now().day
+		self.Arrosage_freq = 1
 
 	def getName(self):
 		return self.Name
@@ -29,7 +30,8 @@ class Plante :
 
 
 	def Arrosage(self, interface):
-		if (self.Arrosage_last - datetime.datetime.now().day) > 1:
+
+		if (self.Arrosage_last - datetime.datetime.now().day) > self.Arrosage_freq:
 			self.Arrosage_last = datetime.datetime.now().day
 			
 			if not self.Engrais :

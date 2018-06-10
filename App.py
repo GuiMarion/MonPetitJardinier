@@ -89,6 +89,61 @@ class Gui() :
 
 		sdlttf.TTF_CloseFont(police)
 
+	def printD(self, size, x, y, text, font = "SanFranciscoRegular", color = [0,0,0]):
+
+		pas = size
+		L = []
+		k = 0
+		MOD = 20 
+
+
+		i = len(text)-1
+		while i > 0:
+			if text[i] == '\t' or text[i] == '\n':
+				text = text[:i] + text[i+1:]
+			i = i -1
+
+
+		M = ""
+		for i in range(len(text)):
+			M += text[i]
+			if i % MOD == 0 and i != 0:
+				M += '\n'
+
+		text = M
+		while k < len(text):
+			if text[k] == '\n':
+				L.append(text[:k])
+				text = text[(k+1):]
+				k = 0
+				if L[-1][0] == " ":
+					L[-1] = L[-1][1:]
+
+			else :
+				k += 1
+
+		L.append(text)
+
+		for i in range(len(L)):
+			if L[i] == '':
+				del L[i]
+
+		police =  sdlttf.TTF_OpenFont(str.encode("Fonts/"+font+".ttf"), size)
+
+		P = 0
+
+		print(L)
+
+		for elem in L:
+			Text = sdlttf.TTF_RenderUTF8_Blended(police, str.encode(elem), SDL_Color(color[0], color[1], color[2]))
+			a = [Text, SDL_Rect(x,y + P)]
+			self.elmt_afficher.append(a)
+			P += pas
+
+		sdlttf.TTF_CloseFont(police)
+
+
+
 	def printTexte(self, size, text, font = "SanFranciscoRegular", color = [0, 0, 0]):
 
 		definition = []
@@ -96,7 +151,7 @@ class Gui() :
 		pas = size
 		L = []
 		k = 0
-		MOD = 45 # ?
+		MOD = 45 
 
 		Deb = 100
 		Deby = 120
@@ -110,7 +165,7 @@ class Gui() :
 		if "<def" in text :
 			a = text.find("<def")
 			b = text.find(">")
-			definition.append(text[(a+6):].split(text[b:])[0])	#on recupere la definition et le mot associer
+			definition.append(text[(a+6):].split(text[b:])[0])	#on recupere la definition et le mot associé
 			c = text.find("</def>")
 			mots_definie.append(text[(b+1):].split(text[c:])[0])
 
@@ -149,6 +204,8 @@ class Gui() :
 		police =  sdlttf.TTF_OpenFont(str.encode("Fonts/"+font+".ttf"), size)
 
 		P = 0
+
+		print(L)
 
 		for elem in L:
 			afficher = False
