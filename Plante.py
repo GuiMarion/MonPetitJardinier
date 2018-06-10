@@ -41,7 +41,7 @@ class Plante :
 			else :
 				interface.acquisition("Il est temps d'arroser, votre " + self.type + " " + self.Name + " pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffirent. Vous devraient aussi mettre \
-				 de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau."
+				 de l'engrais, pour cela ajouter " + str(self.Engrais_quantite) + "par litre d'eau."
 					,["ok"], [[interface, "retour_arriere"]])
 
 
