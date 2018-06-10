@@ -23,7 +23,17 @@ class Gui() :
 	historique = []
 	elmt_afficher = []
 	img_ok = SDL_LoadBMP(b"pictures/OK.bmp")
-
+	A = ["Preparation",
+	"Germination",
+	"Fin Germination",
+	"Mise en terre",
+	"Lampes",
+	"Engrais",
+	"Installation lampe",
+	"Croissance",
+	"Rampotage et Croissance",
+	"Floraison",
+	"Fin"]
 
 
 	def __init__(self, plantes):
@@ -390,6 +400,7 @@ class Gui() :
 		for i in range(len(past_task)) :
 			self.printT(20, i*60+10, 120, str(past_task[i]))
 			self.boutons.append([(i*60+10, 120, i*60+35, 145), plante, past_task[i], self])
+			self.definitions.append([self.A[i], i*60+10, 120, i*60+35, 145])
 
 		"""for i in range(len(advised_task)) :
 			if advised_task[i][0] == "a temps" :
@@ -402,10 +413,12 @@ class Gui() :
 		#color = SDL_Color(230, 230, 255)
 		self.printT(40, 250, 220, str(advised_task))
 		self.boutons.append([(245, 220, 300, 270), plante, advised_task, self])
+		self.definitions.append([self.A[len(past_task)], 245, 220, 300, 270])
 
 		for i in range(len(futur_task)) :
 			self.printT(20, i*80+10, 420, str(futur_task[i]))
 			self.boutons.append([(i*80+10, 420, i*80+42, 445), plante, futur_task[i], self])
+			self.definitions.append([self.A[len(past_task)+1+i], i*80+10, 420, i*80+42, 445])
 
 
 	#affiche la fenetre d'accueil.
