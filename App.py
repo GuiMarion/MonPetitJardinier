@@ -382,29 +382,32 @@ class Gui() :
 
 		H += (len(question)**2)//2000
 
-		if len(reponses) == 1:
+		try :
+			if len(reponses) == 1:
 
-			if reponses[0] == "ok":
-				self.elmt_afficher.append([self.img_ok, SDL_Rect(pas + Deb - 130, H + 30)])
+				if reponses[0] == "ok":
+					self.elmt_afficher.append([self.img_ok, SDL_Rect(pas + Deb - 130, H + 30)])
 
-			else:
-				self.printT(30, pas + Deb - 130, H + 30, reponses[0])
+				else:
+					self.printT(30, pas + Deb - 130, H + 30, reponses[0])
 
-			if len(action[0]) == 3 :
-				self.boutons.append([(pas + Deb - 130, H, pas + Deb - 30, H +100), action[0].pop(0), action[0].pop(0), action[0].pop(0)])
-			else :
-				self.boutons.append([(pas + Deb - 130, H, pas + Deb - 30, H+100), action[0].pop(0), action[0].pop(0)])
-
-
-		if len(reponses) == 2:
-
-			for i in range(len(reponses)) :
-				self.printT(20, i*pas + Deb, H, reponses[i])
-
-				if len(action[i]) == 3 :
-					self.boutons.append([(i*pas + Deb, H, i*pas + Deb + 100, H +100), action[i].pop(0), action[i].pop(0), action[i].pop(0)])
+				if len(action[0]) == 3 :
+					self.boutons.append([(pas + Deb - 130, H, pas + Deb - 30, H +100), action[0].pop(0), action[0].pop(0), action[0].pop(0)])
 				else :
-					self.boutons.append([(i*pas + Deb, H, i*pas + Deb +100, H+100), action[i].pop(0), action[i].pop(0)])
+					self.boutons.append([(pas + Deb - 130, H, pas + Deb - 30, H+100), action[0].pop(0), action[0].pop(0)])
+
+
+			if len(reponses) == 2:
+
+				for i in range(len(reponses)) :
+					self.printT(20, i*pas + Deb, H, reponses[i])
+
+					if len(action[i]) == 3 :
+						self.boutons.append([(i*pas + Deb, H, i*pas + Deb + 100, H +100), action[i].pop(0), action[i].pop(0), action[i].pop(0)])
+					else :
+						self.boutons.append([(i*pas + Deb, H, i*pas + Deb +100, H+100), action[i].pop(0), action[i].pop(0)])
+		except :
+			pass
 
 
 	#affiche une pop-up (géré directement par gnome/kde/..., pas par la sdl)
