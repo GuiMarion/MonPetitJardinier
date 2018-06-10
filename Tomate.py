@@ -76,8 +76,6 @@ class Tomate(Plante.Plante):
 			self.A6(interface, None)
 
 
-
-
 	def A7(self, interface):
 		# Affichage croissance
 		if self.state == 6 :

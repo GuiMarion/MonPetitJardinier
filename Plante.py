@@ -105,7 +105,7 @@ class Plante :
 			self.state = 6
 
 		if reponse == None :
-			interface.acquisition("Voulez-vous utiliser des engrais ? ",["oui", "non"], [[self, "A6", [interface, "oui"]], [self, "A6", [interface, "non"]]])
+			interface.acquisition("Voulez-vous utiliser des engrais ? ",["Oui", "Non"], [[self, "A6", [interface, "oui"]], [self, "A6", [interface, "non"]]])
 
 		if reponse == "oui" or reponse == "non" :
 			self.Engrais = (reponse == 'oui')
@@ -118,7 +118,7 @@ class Plante :
 			else :
 				interface.elmt_afficher = []
 				interface.boutons = []
-				interface.printT(25, 20, 100, "Quelle est la quantité à mettre dans un litre ? (en <def =un mL est 1/1000 Litre>mL</def>) ?\
+				interface.printTexte(20, "Quelle est la quantité à mettre dans un litre ? (en <def =un mL est 1/1000 Litre>mL</def>) ?\
 				 Cette information devrait se situer derriere la bouteille.")
 				rep = interface.input(200, 200)
 				self.Engrais_quantite = int(rep)
