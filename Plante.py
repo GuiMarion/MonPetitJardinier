@@ -138,10 +138,11 @@ class Plante :
 				interface.printTexte(20, "Quelle est la quantité à mettre dans un litre ? (en mL) ?\
 				 Cette information devrait se situer derrière la bouteille.")
 				rep = interface.input(200, 200)
-				self.Engrais_quantite = int(rep)
+				if not rep == -1:	
+					self.Engrais_quantite = int(rep)
 
-				interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
-					un arrosage pour deux.",["1", "2"], [[self, "A6", [interface, 1]], [self, "A6", [interface, 2]]])
+					interface.acquisition("Quelle est la fréquence d'utilisation de l'engrais ? (1 pour à chaque arrosage, 2 pour \
+						un arrosage pour deux.",["1", "2"], [[self, "A6", [interface, 1]], [self, "A6", [interface, 2]]])
 
 		if self.Engrais == False :
 			self.A7(interface)
@@ -152,8 +153,10 @@ class Plante :
 
 		interface.acquisition("Quelle est la taille de votre plante ? (en cm)", None, None)
 		rep = interface.input(200, 200)
-
-		self.Taille = int(rep)
+		if not rep == -1:
+			self.Taille = int(rep)
+		else:
+			return -1
 
 
 

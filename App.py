@@ -390,10 +390,10 @@ class Gui() :
 
 		self.printT(20, 50, 100, "Quel nom souhaitez-vous donnez à votre plante ?")
 		name = self.input(200, 200)
-
-		p = eval(type_de_plantes)(name)
-		self.plantes.append(p)
-		self.plantes[-1].A1(self, None)
+		if not name == -1:
+			p = eval(type_de_plantes)(name)
+			self.plantes.append(p)
+			self.plantes[-1].A1(self, None)
 
 
 	#fenetre d'affichage de plante.
@@ -524,6 +524,25 @@ class Gui() :
 
 		while(not finie) :
 			while ( SDL_PollEvent( event ) ) :
+
+				if event.type == SDL_QUIT:
+					self.run = False
+					return -1
+
+				#si on clique sur un bouton on appelle la fonction associée
+				if event.type == SDL_MOUSEBUTTONUP:
+					for button in self.boutons :
+						if (event.button.x >= button[0][0] and event.button.x <= button[0][2] and event.button.y >= button[0][1] and event.button.y <= button[0][3]) :
+							f = getattr(button[1], button[2])
+							if(len(button) > 3) :
+								if(type(button[3]) is list) :
+									f(*button[3])
+								else :
+									f(button[3])
+							else :
+								f()
+							finie = True
+							return -1				
 				if ( event.type == SDL_KEYDOWN ) :
 					if event.key.keysym.sym == SDLK_ESCAPE :
 						finie = True
