@@ -361,7 +361,7 @@ class Gui() :
 
 		deb = 120
 		pas = 240
-		H = 250
+		H = 300
 
 		self.boutons = []
 		self.elmt_afficher = []
@@ -371,11 +371,15 @@ class Gui() :
 
 		self.printT(50, 90, 15, "Mon Petit Jardinier")
 
+		self.printT(20, 120, 150, "Quelle espèce voulez-vous cultiver ?")
+
+
 		for i in range(len(self.type_de_plantes)) :
 			img = SDL_LoadBMP(str.encode("pictures/" + self.type_de_plantes[i] + ".bmp"))
 			self.elmt_afficher.append([img, SDL_Rect(i*pas + deb, H)])
 			#création du bouton
 			self.boutons.append([(i*pas + deb , H, i*pas + deb +100 , H +130), self, "creation_plante", self.type_de_plantes[i]])
+			self.printT(20, i*pas + deb + 15, H+130, self.type_de_plantes[i])
 
 
 	#fonction ajoutant une plante à self.plante
