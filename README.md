@@ -1,13 +1,14 @@
 # MonPetitJardinier
-This is an educational software about gardening for a course at the University of Lyon.
+Mon Petit Jardiner est un projet de logiciel éducatif portant sur le jardinage.
 
-This is a project done for a course at the University of Lyon directed by Stpéhanie Jean-Daubias. The code is made by and belongs to Guilhem Marion and Luca Jourdan.
+Ce projet a été fait dans le cadre d'un cours à l'Université de Lyon dirigé par Stpéhanie Jean-Daubias. La code a été produit et appartient par Guilhem Marion et Luca Jourdan sous licence MIT.
+
 
 # To get started
 
-This project uses python3 and SDL2, to get started on a ubuntu-like distribution:
+Le projet utilise python3 et SDL2, pour utiliser le logiciel installez les paquets suivants (sur une distribution de type Ubuntu) : 
 
-		apt-get install python3
+		apt-get install python
 
 		apt-get install libsdl2-dev
 
@@ -17,7 +18,7 @@ This project uses python3 and SDL2, to get started on a ubuntu-like distribution
 
 		pip install pysdl2
 
-For archLinux the packages are pretty much the same, so: 
+Pour archLinux : 
 
 		pacman -S python
 
@@ -29,7 +30,7 @@ For archLinux the packages are pretty much the same, so:
 
 		pip install pysdl2
 
-The same for macOs using brew : 
+Pour macOs : 
 
 		brew install python
 
@@ -43,19 +44,21 @@ The same for macOs using brew :
 
 
 
-# usage 
+# Usage 
 
 		Usage: python3 App.py <Start or Reset>
 
-Mon petit jardiner use a save of all the plants you are working on, so to want to not quit the program in a bad way, always use the little cross to quit it. If you want the reset the plants you are working on, use the 'Reset' parameter : 
+Mon Petit Jardinier utilise une sauvegarde de toutes les plantes sur lesquelles vous travaillez, de ce fait c'est une mauvaise idée de quitter le programme en tuer le processus (cela ne sauvegardera pas votre avancement), utilisez donc la petite croix sur la fenêtre pour fermer le programme. 
+
+Si vous voulez remettre à zéro vos plantes, utilisez le paramètre 'Reset': 
 
 		python3 App.py Reset
 
-To start the program : 
+Pour démarrer le programme : 
 
 		python3 App.py Start
 
-You are now ready for gardening with Mon Petit Jardier ! 
+Vous êtes mainetenant prêt pour jardinner avec Mon Petit Jardinier ! 
 
 
 

@@ -20,10 +20,10 @@ class Plante :
 		self.Engrais_last = False
 		self.Taille = 0
 		self.Floraison = None
-		self.Floraison_début = None
+		self.Floraison_debut = None
 		self.Rempoter = 0
 		self.Arrosage_last = datetime.datetime.now().day
-		self.Arrosage_freq = 1
+		self.Arrosage_freq = 4
 		self.Recolte_done = False
 		self.Floraison_length = 25
 
@@ -32,8 +32,9 @@ class Plante :
 
 	def Recolte(self, interface):
 
-		if self.Floraison and (datetime.datetime.now().day - self.Floraison_debut) > self.Floraison_length:
-			interface.acquisition("La floraison arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
+		if self.Floraison and abs(datetime.datetime.now().day - self.Floraison_debut) > self.Floraison_length:
+			self.Floraison = False
+			interface.acquisition("La floraison de "+str(self.Name) +" arrive à grand pas, vous pouvez dès à présent recolter les fruits qui vous semblent \
 				murs. Bravo, notre travail est terminé !"
 				,["ok"], [[self, "A11", interface]])
 			self.Recolte_done = True
@@ -42,24 +43,27 @@ class Plante :
 
 	def Arrosage(self, interface):
 
-		if (self.Arrosage_last - datetime.datetime.now().day) > self.Arrosage_freq:
+		#print(abs(self.Arrosage_last - datetime.datetime.now().day))
+		if abs((self.Arrosage_last - datetime.datetime.now().day)) > self.Arrosage_freq:
 			self.Arrosage_last = datetime.datetime.now().day
 
 			if not self.Engrais :
-				interface.acquisition("Il est temps d'arroser, votre plante pour cela remplissez lentement le pot d'eau. \
+				interface.acquisition("Il est temps d'arroser, la plante " +str(self.Name) + " pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir."
-					,["ok"], [[interface, "retour_arriere"]])
+					,["ok"], [[interface, "accueil"]])
 
 			elif not self.Engrais_last:
+
 				interface.acquisition("Il est temps d'arroser, votre plante pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir. Vous devrez aussi mettre \
-				 de l'engrais, pour cela ajouter ", self.Engrais_quantite, "par litre d'eau.")
+				 de l'engrais, pour cela ajoutez " + str(self.Engrais_quantite) + " mL d'engrais par litre d'eau."
+					,["ok"], [[interface, "accueil"]])
 				self.Engrais_last = True
 
 			else:
 				interface.acquisition("Il est temps d'arroser, votre plante pour cela remplissez lentement le pot d'eau. \
 				Il faut qu'après l'arrosage le pot soit beaucoup plus lourd qu'avant, 3 litres devraient suffir."
-					,["ok"], [[interface, "retour_arriere"]])
+					,["ok"], [[interface, "accueil"]])
 				self.Engrais_last = False
 
 	def A1(self, interface, reponse=None):
@@ -110,6 +114,8 @@ class Plante :
 		# Procédure pour mettre la graine en terre (cas Pot = 1)
 		if self.state == 3 :
 			self.state = 4
+		self.Germee = True
+		self.Arrosage_last = datetime.datetime.now().day
 		interface.acquisition("Pour continuer, vous devez saisir délicatement la graine avec une pince à épiler que vous aurez \
 			préalablement désinfectée et déposer la graine dans le pot dans lequel vous aurez fait un trou de 3 cm de profondeur \
 			( un demi-doigt). La graine sera introduite avec le germe vers le bas, vous reboucherez ensuite sans trop tasser."

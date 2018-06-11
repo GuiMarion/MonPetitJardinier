@@ -61,7 +61,7 @@ class Gui() :
 		while self.run :
 			for plante in self.plantes :
 				plante.Arrosage(self)
-				#plante.Recolte(self)
+				plante.Recolte(self)
 			self.affichage()
 
 
@@ -303,12 +303,13 @@ class Gui() :
 
 	#verifie les clics
 	def event(self) :
-		#boucle de gestion des evenements (cliques de la souris)
+		#boucle de gestion des evenements (clics de souris)
 		event = SDL_Event()
 		while SDL_PollEvent(ctypes.byref(event)) != 0:
 			if event.type == SDL_QUIT:
 				self.run = False
 				break
+
 			#si on clique sur un bouton on appel la fonction associé
 			if event.type == SDL_MOUSEBUTTONUP:
 				for button in self.boutons :
@@ -370,7 +371,7 @@ class Gui() :
 			self.historique.append([self, "nouvelle_plante"])
 
 
-		self.printT(20, 120, H//2, "Quelle espèce voulez-vous cultiver ?")
+		self.printT(20, 115, H//2, "Quelle espèce souhaitez-vous cultiver ?")
 
 
 		for i in range(len(self.type_de_plantes)) :
@@ -388,7 +389,7 @@ class Gui() :
 		self.boutons = []
 		self.definitions = []
 
-		self.printT(20, 50, 100, "Quel nom souhaitez-vous donnez à votre plante ?")
+		self.printT(20, 80, 100, "Quel nom souhaitez-vous donnez à votre plante ?")
 		name = self.input(200, 200)
 		if not name == -1:
 			p = eval(type_de_plantes)(name)
@@ -530,7 +531,7 @@ class Gui() :
 					return -1
 
 				#si on clique sur un bouton on appelle la fonction associée
-				if event.type == SDL_MOUSEBUTTONUP:
+				if (event.type == SDL_MOUSEBUTTONUP):
 					for button in self.boutons :
 						if (event.button.x >= button[0][0] and event.button.x <= button[0][2] and event.button.y >= button[0][1] and event.button.y <= button[0][3]) :
 							f = getattr(button[1], button[2])
@@ -543,7 +544,7 @@ class Gui() :
 								f()
 							finie = True
 							return -1				
-				if ( event.type == SDL_KEYDOWN ) :
+				elif ( event.type == SDL_KEYDOWN ) :
 					if event.key.keysym.sym == SDLK_ESCAPE :
 						finie = True
 					elif event.key.keysym.sym == SDLK_KP_ENTER :
