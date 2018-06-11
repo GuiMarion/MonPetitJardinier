@@ -361,7 +361,7 @@ class Gui() :
 
 		deb = 120
 		pas = 240
-		H = 300
+		H = 250
 
 		self.boutons = []
 		self.elmt_afficher = []
@@ -369,9 +369,8 @@ class Gui() :
 		if self.historique[-1] != [self, "nouvelle_plante"] :
 			self.historique.append([self, "nouvelle_plante"])
 
-		self.printT(50, 90, 15, "Mon Petit Jardinier")
 
-		self.printT(20, 120, 150, "Quelle espèce voulez-vous cultiver ?")
+		self.printT(20, 120, H//2, "Quelle espèce voulez-vous cultiver ?")
 
 
 		for i in range(len(self.type_de_plantes)) :
@@ -452,7 +451,7 @@ class Gui() :
 		img_tomate = SDL_LoadBMP(b"pictures/Tomate.bmp")
 		img_basilic = SDL_LoadBMP(b"pictures/Basilic.bmp")
 
-		self.printT(50, 90, 15, "Mon petit jardinier")
+		self.printT(50, 100, 50, "Mon petit jardinier")
 
 		for i in range(len(self.plantes)) :
 			if (type(self.plantes[i]) == Tomate) :
@@ -545,13 +544,14 @@ class Gui() :
 						except :
 							pass
 
-			self.printT(25, x, y, text+"|")
+			for i in range(len(self.elmt_afficher)):
+				if str(type(self.elmt_afficher[i])) == "<class 'list'>" and len(self.elmt_afficher[i]) > 1:
+					if "x=200, y=200" in str(self.elmt_afficher[i][1]):
+						del self.elmt_afficher[i]
+						break
+
+			self.printT(25, x, y, text+"|")	
 			self.affichage()
-			del self.elmt_afficher[-1]
-			if len(text) == 1 and taille == 0:
-				del self.elmt_afficher[-1]
-				taille = 1
-			SDL_Delay(15)
 
 		return text
 
