@@ -96,7 +96,7 @@ class Plante :
 			self.state = 3
 		if self.Pot:
 			if reponse == None :
-				interface.acquisition("Votre graine a-t-elle <def =un germe est une petite tige qui sort de la graine>germée</def> ? "
+				interface.acquisition("Votre graine a-t-elle <def =un germe est une petite tige qui sort de la graine.>germée</def> ? "
 				, ["Oui", "Non"], [[self, "A4", interface], [self, "A3", [interface, "non"]]])
 
 			if reponse == "non" :

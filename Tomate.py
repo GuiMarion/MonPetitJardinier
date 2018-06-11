@@ -115,7 +115,7 @@ class Tomate(Plante.Plante):
 		self.acquisition_taille(interface)
 
 		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
-			interface.acquisition("Il est temps de <def = Déplacer la plante dans un pot plus grand>rempoter</def> votre plante. \
+			interface.acquisition("Il est temps de rempoter votre plante. \
 			 	Pour cela attendez le prochain arrosage et avant d'arroser, \
 				sortez votre plante de son pot en tapant sur l'arrière. Vous devriez pouvoir sortir la motte de \
 				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou \
@@ -143,13 +143,13 @@ class Tomate(Plante.Plante):
 				, ["ok"], [[self, "A10", [interface, None]]])
 
 		elif self.Taille < 15 and self.Pot:
-			interface.acquisition("quand votre plante fera plus de 15cm il faudra la rempoter. revenez nous voir à ce moment."
+			interface.acquisition("Quand votre plante fera plus de 15cm il faudra la rempoter. Revenez nous voir à ce moment."
 				, ["ok"], [[interface, "accueil"]])
 		elif self.Taille < 30 and self.Lampe:
-			interface.acquisition("quand votre plante fera plus de 30cm il faudra passer à la periode de floraison. revenez nous voir à ce moment."
+			interface.acquisition("Quand votre plante fera plus de 30cm il faudra passer à la periode de floraison. revenez nous voir à ce moment."
 				, ["ok"], [[interface, "accueil"]])
 		else :
-			interface.acquisition("quand votre plante fera plus de 35cm il faudra tailler votre plante. revenez nous voir à ce moment."
+			interface.acquisition("Quand votre plante fera plus de 35cm il faudra tailler votre plante. Revenez nous voir à ce moment."
 				, ["ok"], [[interface, "accueil"]])
 
 
