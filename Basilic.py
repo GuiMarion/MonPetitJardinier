@@ -19,9 +19,10 @@ class Basilic(Plante.Plante):
 			"A8", # Croissance
 			"A9", # Rampotage/ Croissance
 			"A10", # Floraison
-			"A11" # Fin
+			"A11" # Récolte
 		]
-
+		self.Floraison_length = 40
+		self.Arrosage_freq = 4
 
 
 	def A5(self, interface, reponse=None):
@@ -41,8 +42,8 @@ class Basilic(Plante.Plante):
 		elif reponse == "lampe":
 			self.Lampe = True
 			interface.acquisition("C'est un très bon choix. La lampe est-elle une \
-			<def = Lampe à décharge qui est très puissante mais consomme beacoup d'éléctricité et chauffe énorméménent. Si vous optez pour cette \
-			solution il faudrait être vigilant avec la temperature.>HPS</def> ? "
+			<def = Lampe à décharge qui est très puissante mais consomme beaucoup d'éléctricité et chauffe énorméménent. Si vous optez pour cette \
+			solution il faudrait être vigilant avec la temperature.>HPS</def>  ? "
 			,["Oui", "Non"], [[self, "A5", [interface, "HPS"]], [self, "A5", [interface, "non HPS"]]])
 
 
@@ -64,8 +65,11 @@ class Basilic(Plante.Plante):
 
 			interface.acquisition("Quelle est la puissance (en watts)",None,None)
 			rep = interface.input(200, 200)
-			self.Lampe_puissance = int(rep)
-			self.A6(interface, None)
+			while not is_int(rep):
+				rep = interface.input(200, 200)
+			if not rep == -1:
+				self.Lampe_puissance = int(rep)
+				self.A6(interface, None)
 
 
 	def A7(self, interface):
@@ -74,12 +78,13 @@ class Basilic(Plante.Plante):
 			self.state = 7
 
 		if self.Lampe:
-			interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez\
+
+			interface.acquisition("Vous allez devoir installer votre lampe agricole. Il faut la placer sur un porte lampe, que vous pouvez \
 				construire vous même avec des cables/ficelle et une structure métalique, il faut que l'installation permette \
 				de changer la hauteur de la lampe quand on le désire. Placer pour l'instant la lampe 10 cm au dessus de la plante. \
 				La photopériode doit être reglée à 18h de lumière par jour, utiliser un minuteur que vous pourrez \
 				vous procurer dans le commerce. Utiliser un reflecteur au dessus de la lampe afin de perdre le moins \
-				de lumière possible est une bonne pratique.", ["ok"], [[interface, "accueil"]])
+				de lumière possible est une bonne pratique.",["ok"], [[self, "A8", [interface]]])
 		else :
 			self.A8(interface)
 
@@ -91,16 +96,16 @@ class Basilic(Plante.Plante):
 
 		if self.Lampe:
 
-				interface.acquisition("Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser \
-					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement \
-					la taille de vos plantes afin de vous indiquer les prochaines démarches."
-					,["ok"], [[interface, "accueil"]])
+			interface.acquisition("Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser \
+				l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement \
+				la taille de vos plantes afin de vous indiquer les prochaines démarches."
+				,["ok"], [[self, "A9", [interface]]])
 
 		else :
 				interface.acquisition("Bravo ! Votre plante est desormais en phase de croissance, vous n'avez plus qu'à utiliser \
 					l'application pour savoir quand arroser et mettre les engrais, nous vous demanderons régulièrement \
 					la taille de vos plantes afin de vous indiquer les autres démarches à suivre."
-					, ["ok"], [[interface, "accueil"]])
+					, ["ok"], [[self, "A9", [interface]]])
 
 
 
@@ -110,44 +115,42 @@ class Basilic(Plante.Plante):
 		if self.state == 8 :
 			self.state = 9
 
-		self.acquisition_taille(interface)
+		if not self.acquisition_taille(interface) == -1:
 
-		if (self.Taille >15 and self.Pot and self.Rempoter == 0) or (self.Taille > 25 and self.Pot and self.Rempoter == 1):
-			interface.acquisition("Il est temps de <def = Déplacer la plante dans un pot plus grand>rempoter</def> votre plante. \
-			 	Pour cela attendez le prochain arrosage et avant d'arroser, \
-				sortez votre plante de son pot en tapant sur l'arrière. Vous devriez pouvoir sortir la motte de \
-				terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou \
-				de la taille de la motte de terre que vous avez sortie, et glissez la à l'interieur. Soupoudrez le tout \
-				de terreau, tassez, puis arrosez."
-				, ["ok"], [[interface, "accueil"]])
+			if (self.Taille >15 and self.Pot and self.Rempoter == 0):
+				interface.acquisition("Il est temps de rempoter votre plante. \
+				 	Pour cela attendez le prochain arrosage et avant d'arroser, \
+					sortez votre plante de son pot en tapant sur l'arrière. Vous devriez pouvoir sortir la motte de \
+					terre sans l'abimer. Ensuite remplissez aux trois quarts le pot de taille supèrieure, creuser un trou \
+					de la taille de la motte de terre que vous avez sortie, et glissez la à l'interieur. Soupoudrez le tout \
+					de terreau, tassez, puis arrosez."
+					, ["ok"], [[interface, "accueil"]])
 
-			self.Rempoter +=1
+				self.Rempoter +=1
 
-		elif self.Taille > 30 and self.Lampe:
-			interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour \
-				mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la \
-				<def = La photopériode est le rapport entre la durée d'ensoleimment sur une journée>photopériode</def> à 12h de lumière par jour."
-				, ["ok"], [[interface, "accueil"]])
 
-		elif self.Taille > 35:
-			interface.acquisition("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer \
-			la taille de votre plante. Il vous faut couper les petits débuts de fleurs qui sont trop bas pour prendre \
-			la lumière (les gourmandes) et les parties qui ne prendrons pas la lumière. Ne coupez pas les grosses feuilles, \
-			elles contiennent beaucoup d'energie que la plante peut quand même utiliser, s'il elle n'en a plue besoin \
-			elle s'en débarassera d'elle même."
-				, ["ok"], [[self, "A10", [interface, None]]])
+			elif self.Taille > 20 and self.Lampe and not self.Floraison:
+				interface.acquisition("Il est temps de passer à la période de floraison, pour cela il faut changer de lampe, pour \
+					mettre une lampe spéciale floraison (elle a un spectre plus chaud, plus jaune). Et réduire la \
+					<def = La photopériode est le rapport entre la durée d'ensoleimment sur une journée>photopériode</def> à 12h de lumière par jour."
+					, ["ok"], [[interface, "accueil"]])
+				self.Floraison = True
+				self.Floraison_debut = datetime.datetime.now().day
 
-			self.A10(interface)
+			elif self.Taille > 25:
+				interface.acquisition("Vous devriez voir apparaître les premières fleurs, si c'est le cas, il est temps d'effectuer \
+				la taille de votre plante. Il vous faut couper les petits débuts de fleurs qui sont trop bas pour prendre \
+				la lumière (les gourmandes) et les parties qui ne prendrons pas la lumière. Ne coupez pas les grosses feuilles, \
+				elles contiennent beaucoup d'energie que la plante peut quand même utiliser, s'il elle n'en a plue besoin \
+				elle s'en débarassera d'elle même."
+					, ["ok"], [[self, "A10", [interface, None]]])
 
-		elif self.Taille < 15 and self.Pot:
-			interface.acquisition("quand votre plante fera plus de 15cm il faudra la rempoter. revenez nous voir à ce moment."
-				, ["ok"], [[interface, "accueil"]])
-		elif self.Taille < 30 and self.Lampe:
-			interface.acquisition("quand votre plante fera plus de 30cm il faudra passer à la periode de floraison. revenez nous voir à ce moment."
-				, ["ok"], [[interface, "accueil"]])
-		else :
-			interface.acquisition("quand votre plante fera plus de 35cm il faudra tailler votre plante. revenez nous voir à ce moment."
-				, ["ok"], [[interface, "accueil"]])
+			elif self.Taille < 15 and self.Pot:
+				interface.acquisition("Quand votre plante fera plus de 15cm il faudra la rempoter. Revenez nous voir à ce moment."
+					, ["ok"], [[interface, "accueil"]])
+			else :
+				interface.acquisition("Quand votre plante fera plus de 25cm il faudra tailler votre plante. Revenez nous voir à ce moment."
+					, ["ok"], [[interface, "accueil"]])
 
 
 	def A10(self, interface, reponse=None):
@@ -160,11 +163,18 @@ class Basilic(Plante.Plante):
 				, ["Oui", "Non"], [[self, "A10", [interface, "oui"]], [self, "A10", [interface, "non"]]])
 
 		elif reponse == 'oui' :
-			self.Floraison = True
-			self.Floraison_début = datetime.date.today()
-			interface.acquisition("Très bien nous pouvons continuer"
-				, ["ok"], [[self, "A11", interface]])
+			interface.acquisition("Très bien, il ne reste plus qu'à attendre, continuez à bien arroser, et nous vous dirons quand\
+				il faudra récolter. N'oubliez pas de prendre soin de votre plante, c'est une période difficile pour elle."
+				, ["ok"], [[interface, "accueil"]])
+			self.state = 11
 
 		elif reponse == "non" :
 			interface.acquisition("Nous vous conseillons de revenir aux étapes précédentes afin d'effectuer ces procédures."
 				, ["ok"], [[interface, "ma_plante", self]])
+
+def is_int(i):
+	try:
+		int(i)
+	except ValueError:
+		return False
+	return True

@@ -2,8 +2,6 @@ import datetime
 
 class Plante :
 
-	# TODO afficher arrosage et ajustement taille lampe
-
 	def __init__(self, name):
 
 		# We declare all variables we need for printing
@@ -23,9 +21,7 @@ class Plante :
 		self.Floraison_debut = None
 		self.Rempoter = 0
 		self.Arrosage_last = datetime.datetime.now().day
-		self.Arrosage_freq = 4
 		self.Recolte_done = False
-		self.Floraison_length = 25
 
 	def getName(self):
 		return self.Name

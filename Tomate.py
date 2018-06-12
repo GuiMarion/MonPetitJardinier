@@ -8,6 +8,10 @@ class Tomate(Plante.Plante):
 		Plante.Plante.__init__(self,name)
 		self.type = "tomate"
 		self.state = 3
+		self.Floraison_length = 25
+		self.Arrosage_freq = 3
+
+
 		self.etapes = [
 			"A1", # Preparation
 			"A2", # Germination
